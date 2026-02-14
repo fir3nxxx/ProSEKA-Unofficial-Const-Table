@@ -172,12 +172,33 @@
 
         .fixed-element {
             position: fixed;
-            top: -17px;
+            top: -30px;
             right: 0px;
             margin: 10px;
             z-index: 1000; /* 다른 요소 위에 표시 */
         }
 
+        /* 팝업 컨테이너 (상대 위치) */
+        .popup-container { position: relative; display: inline-block; cursor: pointer; }
+
+        /* 팝업 내용 (초기 숨김) */
+        .popup-content {
+            display: none;
+            position: absolute;
+            background-color: #333;
+            color: #fff;
+            font-size: 18px;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px black;
+            top: 108%; /* 대상 아래에 표시 */
+            left: 0%;
+            white-space: nowrap;
+            z-index: 1000;
+        }
+
+        /* 마우스 올렸을 때 팝업 표시 */
+        .popup-container:hover .popup-content { display: block; }    
 
     </style>
 </head>
@@ -185,10 +206,11 @@
 
 <div class="container"><a id="top"></a>
 
-    <div class="fixed-element"><a href="#top" style="text-decoration: none;"><p style="color: #3cb; font-size: 17px; font-weight: bold; background-color: white; padding: 2px 8px; border-radius: 10px;">최상단으로</p></a></div>
+    <div class="fixed-element"><a href="#top" style="text-decoration: none;"><p style="color: #3cb; font-size: 30px; font-weight: bold; background-color: white; 
+    padding: 2px 8px; border-radius: 10px; box-shadow: 0px 0px 10px black;">▲</p></a></div>
 
     <div class="main-title">프로젝트 세카이 비공식 종합 상수표 기반 서열표</div>
-    <div class="sub-title">by FIR3NA☆ (마지막 업데이트 : 2026. 2. 14.)</div>
+    <div class="sub-title">by FIR3NA☆ (마지막 업데이트 : 2026. 2. 14.)</br>이 사이트는 PC 환경에 최적화되어 있습니다.</div>
     
     <div class="lv-grid">
     <a href="#lv25"><img src="https://sdvx.in/prsk/files/lv/mst25.png" style="width: 33px; height: 33px; filter: brightness(50%);"></a>
@@ -211,25 +233,30 @@
         <div class="tier-header">
             티어 없음 <span class="song-count">(3곡)</span>
         </div>
-        <div class="song-grid">
-            <div class="song-card">
+        <div class="song-grid"> 
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">37.6</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/329.webp" alt="야미나베!!!!" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-        <div class="song-card">
+                <div class="popup-content"><b>ヤミナベ!!!!</b><br/>
+                <span style="color: #aaa; font-size: 15px;">야미나베!!!!</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">37.5</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/315.webp" alt="What's up? Pop!" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-        <div class="song-card">
+                <div class="popup-content"><b>What's up? Pop!</b></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">37.5</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/370.webp" alt="인생" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
+                <div class="popup-content"><b>人生</b><br/>
+                <span style="color: #aaa; font-size: 15px;">인생</span></div>
+            </div></div>
         </div>
     </section>
 
@@ -240,12 +267,13 @@
             티어 없음 <span class="song-count">(1곡)</span>
         </div>
         <div class="song-grid">
-            <div class="song-card">
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">36.0</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/163.webp" alt="the EmpErroR" 
                 style="border: 3px solid #999; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
+                <div class="popup-content"><b>the EmpErroR</b></div>
+            </div></div>
         </div>
     </section>
 
@@ -258,24 +286,29 @@
             티어 1 <span class="song-count">(3곡)</span>
         </div>
         <div class="song-grid">
-            <div class="song-card">
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">35.8</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/164.webp" alt="Don't Fight The Music" 
                 style="border: 3px solid #999; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>Don't Fight The Music</b></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">35.7</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/176.webp" alt="머신건 포엠 돌" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>マシンガンポエムドール</b><br/>
+                <span style="color: #aaa; font-size: 15px;">머신건 포엠 돌</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">35.6</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/250.webp" alt="썩은 외도와 초콜릿" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
+                <div class="popup-content"><b>腐れ外道とチョコレゐト</b><br/>
+                <span style="color: #aaa; font-size: 15px;">썩은 외도와 초콜릿</span></div>
+            </div></div>
         </div>
     </section>
 
@@ -284,30 +317,38 @@
             티어 2 (적정) <span class="song-count">(4곡)</span>
         </div>
         <div class="song-grid">
-            <div class="song-card">
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">35.5</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/049.webp" alt="하츠네 미쿠의 소실" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>初音ミクの消失</b><br/>
+                <span style="color: #aaa; font-size: 15px;">하츠네 미쿠의 소실</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">35.5</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/162.webp" alt="엔드마크에 희망과 눈물을 더하며" 
                 style="border: 3px solid #999; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>エンドマークに希望と涙を添えて</b><br/>
+                <span style="color: #aaa; font-size: 15px;">엔드마크에 희망과 눈물을 더하며</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">35.4</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/135.webp" alt="육조 년과 하룻밤 이야기" 
                 style="border: 3px solid #45d; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>六兆年と一夜物語</b><br/>
+                <span style="color: #aaa; font-size: 15px;">육조 년과 하룻밤 이야기</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">35.4</span>
                 <span class="badge-new">NEW</span>
                 <img src="https://asset.rilaksekai.com/cover/671.webp" alt="괴수가 되고 싶어" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
+                <div class="popup-content"><b>怪獣になりたい</b><br/>
+                <span style="color: #aaa; font-size: 15px;">괴수가 되고 싶어</span></div>
+            </div></div>
         </div>
     </section>
 
@@ -320,12 +361,14 @@
             티어 1 <span class="song-count">(1곡)</span>
         </div>
         <div class="song-grid">
-            <div class="song-card">
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">34.9</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/131.webp" alt="하츠네 미쿠의 격창" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
+                <div class="popup-content"><b>初音ミクの激唱</b><br/>
+                <span style="color: #aaa; font-size: 15px;">하츠네 미쿠의 격창</span></div>
+            </div></div>
         </div>
     </section>
 
@@ -334,36 +377,45 @@
             티어 2 (적정) <span class="song-count">(5곡)</span>
         </div>
         <div class="song-grid">
-            <div class="song-card">
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">34.6</span>
                 <span class="badge-new">NEW</span>
                 <img src="https://asset.rilaksekai.com/cover/668.webp" alt="네크라튠 서커스" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>ネクラチューンサーカス</b><br/>
+                <span style="color: #aaa; font-size: 15px;">네크라튠 서커스</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">34.6</span>
                 <span class="badge-new">NEW</span>
                 <img src="https://asset.rilaksekai.com/cover/691.webp" alt="0.0000034" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>0.0000034</b></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">34.5</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/285.webp" alt="ÅMARA(대미래전뇌)" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>ÅMARA(大未来電脳)</b><br/>
+                <span style="color: #aaa; font-size: 15px;">ÅMARA(대미래전뇌)</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">34.5</span>
                 <span class="badge-new">NEW</span>
                 <img src="https://asset.rilaksekai.com/cover/487.webp" alt="괜찮으신가요?" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>ダイジョブですか？</b><br/>
+                <span style="color: #aaa; font-size: 15px;">괜찮으신가요?</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">34.5</span>
                 <span class="badge-new">NEW</span>
                 <img src="https://asset.rilaksekai.com/cover/486.webp" alt="오갸리나이저" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
+                <div class="popup-content"><b>おぎゃりないざー</b><br/>
+                <span style="color: #aaa; font-size: 15px;">오갸리나이저</span></div>
+            </div></div>
         </div>
     </section>
 
@@ -372,12 +424,14 @@
             티어 3 <span class="song-count">(1곡)</span>
         </div>
         <div class="song-grid">
-            <div class="song-card">
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">34.1</span>
                 <span class="badge-new">NEW</span>
                 <img src="https://asset.rilaksekai.com/cover/488.webp" alt="메모리아" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
+                <div class="popup-content"><b>メモリア</b><br/>
+                <span style="color: #aaa; font-size: 15px;">메모리아</span></div>
+            </div></div>
         </div>
     </section>
 
@@ -390,18 +444,22 @@
             티어 1 <span class="song-count">(2곡)</span>
         </div>
         <div class="song-grid">
-            <div class="song-card">
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">33.8</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/249.webp" alt="우리들의 16bit 전쟁" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>ぼくらの16bit戦争</b><br/>
+                <span style="color: #aaa; font-size: 15px;">우리들의 16bit 전쟁</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">33.7</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/199.webp" alt="고스트 룰" 
                 style="border: 3px solid #45d; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
+                <div class="popup-content"><b>ゴーストルール</b><br/>
+                <span style="color: #aaa; font-size: 15px;">고스트 룰</span></div>
+            </div></div>
         </div>
     </section>
 
@@ -410,36 +468,45 @@
             티어 2 (적정) <span class="song-count">(5곡)</span>
         </div>
         <div class="song-grid">
-            <div class="song-card">
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">33.6</span>
                 <span class="badge-new">NEW</span>
                 <img src="https://asset.rilaksekai.com/cover/686.webp" alt="트레저 가든" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>トレジャーガーデン</b><br/>
+                <span style="color: #aaa; font-size: 15px;">트레저 가든</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">33.6</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/186.webp" alt="하츠네 천지개벽 신화" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>初音天地開闢神話</b><br/>
+                <span style="color: #aaa; font-size: 15px;">하츠네 천지개벽 신화</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">33.5</span>
                 <span class="badge-new">NEW</span>
                 <img src="https://asset.rilaksekai.com/cover/449.webp" alt="MarbleBlue." 
                 style="border: 3px solid #999; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>MarbleBlue.</b></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">33.5</span>
                 <span class="badge-new">NEW</span>
                 <img src="https://asset.rilaksekai.com/cover/543.webp" alt="생명성 신드롬" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>生命性シンドロウム</b><br/>
+                <span style="color: #aaa; font-size: 15px;">생명성 신드롬</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">33.4</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/098.webp" alt="로스트 원의 호곡" 
                 style="border: 3px solid #45d; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
+                <div class="popup-content"><b>ロストワンの号哭</b><br/>
+                <span style="color: #aaa; font-size: 15px;">로스트 원의 호곡</span></div>
+            </div></div>
         </div>
     </section>
 
@@ -448,36 +515,45 @@
             티어 3 <span class="song-count">(5곡)</span>
         </div>
         <div class="song-grid">
-            <div class="song-card">
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">33.3</span>
                 <span class="badge-new">NEW</span>
                 <img src="https://asset.rilaksekai.com/cover/465.webp" alt="양왕" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>嬢王</b><br/>
+                <span style="color: #aaa; font-size: 15px;">양왕</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">33.2</span>
                 <span class="badge-new">NEW</span>
                 <img src="https://asset.rilaksekai.com/cover/622.webp" alt="초 나이트 오브 나이츠" 
                 style="border: 3px solid #999; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>超ナイト・オブ・ナイツ</b><br/>
+                <span style="color: #aaa; font-size: 15px;">초 나이트 오브 나이츠</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">33.1</span>
                 <span class="badge-new">NEW</span>
                 <img src="https://asset.rilaksekai.com/cover/647.webp" alt="SAN치 직장" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>SAN値直葬</b><br/>
+                <span style="color: #aaa; font-size: 15px;">SAN치 직장</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">33.1</span>
                 <span class="badge-new">NEW</span>
                 <img src="https://asset.rilaksekai.com/cover/588.webp" alt="플래닛 히어로" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>プラネットヒーロー</b><br/>
+                <span style="color: #aaa; font-size: 15px;">플래닛 히어로</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">33.0</span>
                 <span class="badge-new">NEW</span>
                 <img src="https://asset.rilaksekai.com/cover/697.webp" alt="Internet Junk Junkie" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
+                <div class="popup-content"><b>Internet Junk Junkie</b></div>
+            </div></div>
         </div>
     </section>
 
@@ -490,54 +566,69 @@
             티어 1 <span class="song-count">(8곡)</span>
         </div>
         <div class="song-grid">
-            <div class="song-card">
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">32.9</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/006.webp" alt="불꽃 -Reloaded-" 
                 style="border: 3px solid #45d; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>ヒバナ -Reloaded-</b><br/>
+                <span style="color: #aaa; font-size: 15px;">불꽃 -Reloaded-</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">32.9</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/328.webp" alt="세카이 쨩과 카후 쨩의 장보기 합소곡" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>星界ちゃんと可不ちゃんのおつかい合騒曲</b><br/>
+                <span style="color: #aaa; font-size: 15px;">세카이 쨩과 카후 쨩의 장보기 합소곡</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">32.8</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/175.webp" alt="친애하는 도플갱어에게" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>拝啓ドッペルゲンガー</b><br/>
+                <span style="color: #aaa; font-size: 15px;">친애하는 도플갱어에게</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">32.8</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/128.webp" alt="Brand New Day" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>Brand New Day</b></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">32.8</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/229.webp" alt="뇌장작렬 걸" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>脳漿炸裂ガール</b><br/>
+                <span style="color: #aaa; font-size: 15px;">뇌장작렬 걸</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">32.7</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/127.webp" alt="톤데모 원더즈" 
                 style="border: 3px solid #f90; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>トンデモワンダーズ</b><br/>
+                <span style="color: #aaa; font-size: 15px;">톤데모 원더즈</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">32.7</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/273.webp" alt="퓨처 이브" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>フューチャー・イヴ</b><br/>
+                <span style="color: #aaa; font-size: 15px;">퓨처 이브</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">32.7</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/354.webp" alt="세츠나 트립" 
                 style="border: 3px solid #8d4; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
+                <div class="popup-content"><b>セツナトリップ</b><br/>
+                <span style="color: #aaa; font-size: 15px;">세츠나 트립</span></div>
+            </div></div>
         </div>
     </section>
 
@@ -546,72 +637,91 @@
             티어 2 (적정) <span class="song-count">(11곡)</span>
         </div>
         <div class="song-grid">
-            <div class="song-card">
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">32.6</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/408.webp" alt="CIRCUS PANIC!!!" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>CIRCUS PANIC!!!</b></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">32.6</span>
                 <span class="badge-new">NEW</span>
                 <img src="https://asset.rilaksekai.com/cover/451.webp" alt="열이상" 
                 style="border: 3px solid #849; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>熱異常</b><br/>
+                <span style="color: #aaa; font-size: 15px;">열이상</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">32.6</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/284.webp" alt="인비저블" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>インビジブル</b><br/>
+                <span style="color: #aaa; font-size: 15px;">인비저블</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">32.6</span>
                 <span class="badge-new">NEW</span>
                 <img src="https://asset.rilaksekai.com/cover/447.webp" alt="folern" 
                 style="border: 3px solid #999; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>folern</b></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">32.6</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/136.webp" alt="칠드런 레코드" 
                 style="border: 3px solid #e16; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>チルドレンレコード</b><br/>
+                <span style="color: #aaa; font-size: 15px;">칠드런 레코드</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">32.5</span>
                 <span class="badge-new">NEW</span>
                 <img src="https://asset.rilaksekai.com/cover/590.webp" alt="맨해튼" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>マンハッタン</b><br/>
+                <span style="color: #aaa; font-size: 15px;">맨해튼</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">32.5</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/110.webp" alt="천본앵" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>千本桜</b><br/>
+                <span style="color: #aaa; font-size: 15px;">천본앵</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">32.5</span>
                 <span class="badge-new">NEW</span>
                 <img src="https://asset.rilaksekai.com/cover/688.webp" alt="위 아 피코피코 해머즈!!!!" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>ウィーアーピコピコハンマーズ!!!!</b><br/>
+                <span style="color: #aaa; font-size: 15px;">위 아 피코피코 해머즈!!!!</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">32.5</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/028.webp" alt="닥터=펑크 비트" 
                 style="border: 3px solid #e16; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>ドクター＝ファンクビート</b><br/>
+                <span style="color: #aaa; font-size: 15px;">닥터=펑크 비트</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">32.4</span>
                 <span class="badge-new">NEW</span>
                 <img src="https://asset.rilaksekai.com/cover/584.webp" alt="IMAWANOKIWA" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>IMAWANOKIWA</b></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">32.4</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/003.webp" alt="테오" 
                 style="border: 3px solid #45d; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
+                <div class="popup-content"><b>テオ</b><br/>
+                <span style="color: #aaa; font-size: 15px;">테오</span></div>
+            </div></div>
         </div>
     </section>
 
@@ -620,72 +730,92 @@
             티어 3 <span class="song-count">(11곡)</span>
         </div>
         <div class="song-grid">
-            <div class="song-card">
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">32.3</span>
                 <span class="badge-new">NEW</span>
                 <img src="https://asset.rilaksekai.com/cover/448.webp" alt="Sage" 
                 style="border: 3px solid #999; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>Sage</b></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">32.3</span>
                 <span class="badge-new">NEW</span>
                 <img src="https://asset.rilaksekai.com/cover/581.webp" alt="중병격발 보이" 
                 style="border: 3px solid #f90; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>厨病激発ボーイ</b><br/>
+                <span style="color: #aaa; font-size: 15px;">중병격발 보이</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">32.3</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/129.webp" alt="비터 초코 데코레이션" 
                 style="border: 3px solid #849; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>ビターチョコデコレーション</b><br/>
+                <span style="color: #aaa; font-size: 15px;">비터 초코 데코레이션</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">32.2</span>
                 <span class="badge-new">NEW</span>
                 <img src="https://asset.rilaksekai.com/cover/503.webp" alt="초최종귀축 여동생 플랑드르 S" 
                 style="border: 3px solid #999; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>超最終鬼畜妹フランドール・Ｓ</b><br/>
+                <span style="color: #aaa; font-size: 15px;">초최종귀축 여동생 플랑드르 S</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">32.2</span>
                 <span class="badge-new">NEW</span>
                 <img src="https://asset.rilaksekai.com/cover/561.webp" alt="프로토 디스코" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>プロトディスコ</b><br/>
+                <span style="color: #aaa; font-size: 15px;">프로토 디스코</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">32.2</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/248.webp" alt="버그" 
                 style="border: 3px solid #849; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>バグ</b><br/>
+                <span style="color: #aaa; font-size: 15px;">버그</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">32.2</span>
                 <span class="badge-new">NEW</span>
                 <img src="https://asset.rilaksekai.com/cover/559.webp" alt="춤춰라" 
                 style="border: 3px solid #45d; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>おどりゃんせ</b><br/>
+                <span style="color: #aaa; font-size: 15px;">춤춰라</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-exp">32.1</span>
                 <span class="badge-new">NEW</span>
                 <img src="https://asset.rilaksekai.com/cover/671.webp" alt="괴수가 되고 싶어 (EX)" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>怪獣になりたい</b><br/>
+                <span style="color: #aaa; font-size: 15px;">괴수가 되고 싶어</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">32.1</span>
                 <span class="badge-new">NEW</span>
                 <img src="https://asset.rilaksekai.com/cover/496.webp" alt="실버 콜렉터" 
                 style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>シルバーコレクター</b><br/>
+                <span style="color: #aaa; font-size: 15px;">실버 콜렉터</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">32.0</span>
                 <span class="badge-new">NEW</span>
                 <img src="https://asset.rilaksekai.com/cover/554.webp" alt="snooze" 
                 style="border: 3px solid #8d4; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
-            <div class="song-card">
+                <div class="popup-content"><b>snooze</b></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
                 <span class="badge-mas">32.0</span>
                 <span class="badge-cla">CLA</span>
                 <img src="https://asset.rilaksekai.com/cover/183.webp" alt="픽서" 
                 style="border: 3px solid #f90; border-radius: 10px; box-shadow: 0px 0px 10px black;">
-            </div>
+                <div class="popup-content"><b>フィクサー</b><br/>
+                <span style="color: #aaa; font-size: 15px;">픽서</span></div>
+            </div></div>
         </div>
     </section>
 
@@ -2028,7 +2158,240 @@
             티어 1 <span class="song-count">(30곡)</span>
         </div>
         <div class="song-grid">
-            
+            <div class="popup-container"><div class="song-card">
+                <span class="badge-exp">29.9</span>
+                <span class="badge-cla">CLA</span>
+                <img src="https://asset.rilaksekai.com/cover/328.webp" alt="세카이 쨩과 카후 쨩의 장보기 합소곡 (EX)" 
+                style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
+                <div class="popup-content"><b>星界ちゃんと可不ちゃんのおつかい合騒曲</b><br/>
+                <span style="color: #aaa; font-size: 15px;">세카이 쨩과 카후 쨩의 장보기 합소곡</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
+                <span class="badge-mas">29.9</span>
+                <span class="badge-cla">CLA</span>
+                <img src="https://asset.rilaksekai.com/cover/323.webp" alt="쾌청" 
+                style="border: 3px solid #45d; border-radius: 10px; box-shadow: 0px 0px 10px black;">
+                <div class="popup-content"><b>快晴</b><br/>
+                <span style="color: #aaa; font-size: 15px;">쾌청</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
+                <span class="badge-mas">29.9</span>
+                <span class="badge-cla">CLA</span>
+                <img src="https://asset.rilaksekai.com/cover/125.webp" alt="보카 델라 베리타" 
+                style="border: 3px solid #849; border-radius: 10px; box-shadow: 0px 0px 10px black;">
+                <div class="popup-content"><b>ボッカデラベリタ</b><br/>
+                <span style="color: #aaa; font-size: 15px;">보카 델라 베리타</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
+                <span class="badge-mas">29.9</span>
+                <span class="badge-cla">CLA</span>
+                <img src="https://asset.rilaksekai.com/cover/126.webp" alt="시네마" 
+                style="border: 3px solid #e16; border-radius: 10px; box-shadow: 0px 0px 10px black;">
+                <div class="popup-content"><b>シネマ</b><br/>
+                <span style="color: #aaa; font-size: 15px;">시네마</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
+                <span class="badge-mas">29.9</span>
+                <span class="badge-cla">CLA</span>
+                <img src="https://asset.rilaksekai.com/cover/120.webp" alt="가지마" 
+                style="border: 3px solid #45d; border-radius: 10px; box-shadow: 0px 0px 10px black;">
+                <div class="popup-content"><b>いかないで</b><br/>
+                <span style="color: #aaa; font-size: 15px;">가지마</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
+                <span class="badge-mas">29.9</span>
+                <span class="badge-cla">CLA</span>
+                <img src="https://asset.rilaksekai.com/cover/224.webp" alt="88☆彡" 
+                style="border: 3px solid #f90; border-radius: 10px; box-shadow: 0px 0px 10px black;">
+                <div class="popup-content"><b>88☆彡</b></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
+                <span class="badge-mas">29.9</span>
+                <span class="badge-cla">CLA</span>
+                <img src="https://asset.rilaksekai.com/cover/226.webp" alt="로스트 앤 파운드" 
+                style="border: 3px solid #45d; border-radius: 10px; box-shadow: 0px 0px 10px black;">
+                <div class="popup-content"><b>ロストエンファウンド</b><br/>
+                <span style="color: #aaa; font-size: 15px;">로스트 앤 파운드</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
+                <span class="badge-mas">29.9</span>
+                <span class="badge-cla">CLA</span>
+                <img src="https://asset.rilaksekai.com/cover/289.webp" alt="천성의 약함" 
+                style="border: 3px solid #45d; border-radius: 10px; box-shadow: 0px 0px 10px black;">
+                <div class="popup-content"><b>天ノ弱</b><br/>
+                <span style="color: #aaa; font-size: 15px;">천성의 약함</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
+                <span class="badge-mas">29.9</span>
+                <span class="badge-cla">CLA</span>
+                <img src="https://asset.rilaksekai.com/cover/277.webp" alt="포니" 
+                style="border: 3px solid #849; border-radius: 10px; box-shadow: 0px 0px 10px black;">
+                <div class="popup-content"><b>フォニイ</b><br/>
+                <span style="color: #aaa; font-size: 15px;">포니</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
+                <span class="badge-mas">29.9</span>
+                <span class="badge-cla">CLA</span>
+                <img src="https://asset.rilaksekai.com/cover/343.webp" alt="스노우맨" 
+                style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
+                <div class="popup-content"><b>スノーマン</b><br/>
+                <span style="color: #aaa; font-size: 15px;">스노우맨</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
+                <span class="badge-mas">29.9</span>
+                <span class="badge-cla">CLA</span>
+                <img src="https://asset.rilaksekai.com/cover/346.webp" alt="아아, 훌륭한 고양이의 삶" 
+                style="border: 3px solid #f90; border-radius: 10px; box-shadow: 0px 0px 10px black;">
+                <div class="popup-content"><b>嗚呼、素晴らしきニャン生</b><br/>
+                <span style="color: #aaa; font-size: 15px;">아아, 훌륭한 고양이의 삶</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
+                <span class="badge-mas">29.9</span>
+                <span class="badge-cla">CLA</span>
+                <img src="https://asset.rilaksekai.com/cover/355.webp" alt="하얀 눈의 프린세스는" 
+                style="border: 3px solid #8d4; border-radius: 10px; box-shadow: 0px 0px 10px black;">
+                <div class="popup-content"><b>白い雪のプリンセスは</b><br/>
+                <span style="color: #aaa; font-size: 15px;">하얀 눈의 프린세스는</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
+                <span class="badge-mas">29.9</span>
+                <span class="badge-new">NEW</span>
+                <img src="https://asset.rilaksekai.com/cover/477.webp" alt="모자이크 롤 (Reloaded)" 
+                style="border: 3px solid #45d; border-radius: 10px; box-shadow: 0px 0px 10px black;">
+                <div class="popup-content"><b>モザイクロール (Reloaded)</b><br/>
+                <span style="color: #aaa; font-size: 15px;">모자이크 롤 (Reloaded)</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
+                <span class="badge-exp">29.9</span>
+                <span class="badge-new">NEW</span>
+                <img src="https://asset.rilaksekai.com/cover/543.webp" alt="생명성 신드롬 (EX)" 
+                style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
+                <div class="popup-content"><b>生命性シンドロウム</b><br/>
+                <span style="color: #aaa; font-size: 15px;">생명성 신드롬</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
+                <span class="badge-mas">29.8</span>
+                <span class="badge-cla">CLA</span>
+                <img src="https://asset.rilaksekai.com/cover/266.webp" alt="YY" 
+                style="border: 3px solid #e16; border-radius: 10px; box-shadow: 0px 0px 10px black;">
+                <div class="popup-content"><b>YY</b></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
+                <span class="badge-mas">29.8</span>
+                <span class="badge-cla">CLA</span>
+                <img src="https://asset.rilaksekai.com/cover/054.webp" alt="Ready Steady" 
+                style="border: 3px solid #e16; border-radius: 10px; box-shadow: 0px 0px 10px black;">
+                <div class="popup-content"><b>Ready Steady</b></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
+                <span class="badge-mas">29.8</span>
+                <span class="badge-cla">CLA</span>
+                <img src="https://asset.rilaksekai.com/cover/083.webp" alt="Gimme×Gimme" 
+                style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
+                <div class="popup-content"><b>Gimme×Gimme</b></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
+                <span class="badge-mas">29.8</span>
+                <span class="badge-cla">CLA</span>
+                <img src="https://asset.rilaksekai.com/cover/062.webp" alt="잭팟 새드 걸" 
+                style="border: 3px solid #849; border-radius: 10px; box-shadow: 0px 0px 10px black;">
+                <div class="popup-content"><b>ジャックポットサッドガール</b><br/>
+                <span style="color: #aaa; font-size: 15px;">잭팟 새드 걸</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
+                <span class="badge-mas">29.8</span>
+                <span class="badge-cla">CLA</span>
+                <img src="https://asset.rilaksekai.com/cover/103.webp" alt="무지갯빛 스토리즈" 
+                style="border: 3px solid #f90; border-radius: 10px; box-shadow: 0px 0px 10px black;">
+                <div class="popup-content"><b>ニジイロストーリーズ</b><br/>
+                <span style="color: #aaa; font-size: 15px;">무지갯빛 스토리즈</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
+                <span class="badge-mas">29.8</span>
+                <span class="badge-cla">CLA</span>
+                <img src="https://asset.rilaksekai.com/cover/091.webp" alt="드라마투르기" 
+                style="border: 3px solid #45d; border-radius: 10px; box-shadow: 0px 0px 10px black;">
+                <div class="popup-content"><b>ドラマツルギー</b><br/>
+                <span style="color: #aaa; font-size: 15px;">드라마투르기</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
+                <span class="badge-mas">29.8</span>
+                <span class="badge-cla">CLA</span>
+                <img src="https://asset.rilaksekai.com/cover/015.webp" alt="drop pop candy" 
+                style="border: 3px solid #e16; border-radius: 10px; box-shadow: 0px 0px 10px black;">
+                <div class="popup-content"><b>drop pop candy</b></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
+                <span class="badge-exp">29.8</span>
+                <span class="badge-cla">CLA</span>
+                <img src="https://asset.rilaksekai.com/cover/135.webp" alt="육조 년과 하룻밤 이야기 (EX)" 
+                style="border: 3px solid #45d; border-radius: 10px; box-shadow: 0px 0px 10px black;">
+                <div class="popup-content"><b>六兆年と一夜物語</b><br/>
+                <span style="color: #aaa; font-size: 15px;">육조 년과 하룻밤 이야기</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
+                <span class="badge-mas">29.8</span>
+                <span class="badge-cla">CLA</span>
+                <img src="https://asset.rilaksekai.com/cover/145.webp" alt="베놈" 
+                style="border: 3px solid #849; border-radius: 10px; box-shadow: 0px 0px 10px black;">
+                <div class="popup-content"><b>ベノム</b><br/>
+                <span style="color: #aaa; font-size: 15px;">베놈</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
+                <span class="badge-mas">29.8</span>
+                <span class="badge-cla">CLA</span>
+                <img src="https://asset.rilaksekai.com/cover/157.webp" alt="마슈마리" 
+                style="border: 3px solid #8d4; border-radius: 10px; box-shadow: 0px 0px 10px black;">
+                <div class="popup-content"><b>マシュマリー</b><br/>
+                <span style="color: #aaa; font-size: 15px;">마슈마리</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
+                <span class="badge-mas">29.8</span>
+                <span class="badge-cla">CLA</span>
+                <img src="https://asset.rilaksekai.com/cover/104.webp" alt="상드리용 10th Anniversary" 
+                style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
+                <div class="popup-content"><b>サンドリヨン 10th Anniversary</b><br/>
+                <span style="color: #aaa; font-size: 15px;">상드리용 10th Anniversary</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
+                <span class="badge-mas">29.8</span>
+                <span class="badge-cla">CLA</span>
+                <img src="https://asset.rilaksekai.com/cover/356.webp" alt="리얼라이즈" 
+                style="border: 3px solid #e16; border-radius: 10px; box-shadow: 0px 0px 10px black;">
+                <div class="popup-content"><b>リアライズ</b><br/>
+                <span style="color: #aaa; font-size: 15px;">리얼라이즈</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
+                <span class="badge-mas">29.8</span>
+                <span class="badge-new">NEW</span>
+                <img src="https://asset.rilaksekai.com/cover/372.webp" alt="천악" 
+                style="border: 3px solid #45d; border-radius: 10px; box-shadow: 0px 0px 10px black;">
+                <div class="popup-content"><b>天樂</b><br/>
+                <span style="color: #aaa; font-size: 15px;">천악</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
+                <span class="badge-mas">29.8</span>
+                <span class="badge-new">NEW</span>
+                <img src="https://asset.rilaksekai.com/cover/462.webp" alt="레드 랜드 마커" 
+                style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
+                <div class="popup-content"><b>レッドランドマーカー</b><br/>
+                <span style="color: #aaa; font-size: 15px;">레드 랜드 마커</span></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
+                <span class="badge-mas">29.8</span>
+                <span class="badge-new">NEW</span>
+                <img src="https://asset.rilaksekai.com/cover/501.webp" alt="Bad Apple!! feat.SEKAI" 
+                style="border: 3px solid #849; border-radius: 10px; box-shadow: 0px 0px 10px black;">
+                <div class="popup-content"><b>Bad Apple!! feat.SEKAI</b></div>
+            </div></div>
+            <div class="popup-container"><div class="song-card">
+                <span class="badge-mas">29.8</span>
+                <span class="badge-new">NEW</span>
+                <img src="https://asset.rilaksekai.com/cover/639.webp" alt="마리오네트 댄서" 
+                style="border: 3px solid #3cb; border-radius: 10px; box-shadow: 0px 0px 10px black;">
+                <div class="popup-content"><b>マリオネットダンサー</b><br/>
+                <span style="color: #aaa; font-size: 15px;">마리오네트 댄서</span></div>
+            </div></div>
         </div>
     </section>
 
