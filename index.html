@@ -101,6 +101,7 @@
     border-radius: 8px;
     border: 1px solid #333;
     transition: all 0.3s ease;
+    gap: 8px;
   }
   
   .row.glow-ap {
@@ -121,7 +122,7 @@
   .level-label {
     font-size: 13px;
     font-weight: bold;
-    padding: 4px 8px;
+    padding: 4px 6px;
     border-radius: 6px;
     text-align: center;
     width: 75px;
@@ -286,8 +287,8 @@
   <div class="content-wrapper">
     <div class="left-panel">
       <div class="tabs">
-        <div class="tab active" onclick="switchTab('mas', event)">MASTER 이하</div>
-        <div class="tab" onclick="switchTab('apd', event)">APPEND</div>
+        <div class="tab active" onclick="switchTab('mas', event)">MASTER 이하 (39곡)</div>
+        <div class="tab" onclick="switchTab('apd', event)">APPEND (26곡)</div>
       </div>
       <!-- 가로 정렬 그리드 컨테이너 -->
       <div id="input-container" class="horizontal-grid">
