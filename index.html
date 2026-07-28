@@ -467,8 +467,8 @@
 
 <div id="jacket-modal" class="modal-overlay" style="display: none;">
   <div class="modal-content">
-    <h3>자켓 이미지 ID 입력</h3>
-    <input type="text" id="modal-id-input" placeholder="ID 입력 예시: 2, 49, 187" style="width: 100%; padding: 10px; box-sizing: border-box; margin-top: 5px;">
+    <h3>자켓 이미지 ID 또는 URL 입력</h3>
+    <input type="text" id="modal-id-input" placeholder="곡 ID 숫자 또는 이미지 URL 주소" style="width: 100%; padding: 10px; box-sizing: border-box; margin-top: 5px;">
     <div class="modal-footer">
       <a href="https://rilakbest.com/song/list/all" target="_blank" class="modal-find-link">ID 찾기 #</a>
       <div class="modal-buttons">
@@ -757,29 +757,40 @@
         cardDiv.className = 'jacket-card';
         cardDiv.onclick = () => openJacketModal(item.key);
 
-        const jacketId = jacketMap[item.key];
+        const jacketInput = jacketMap[item.key];
 
-        if (jacketId) {
+        if (jacketInput) {
           const imgEl = document.createElement('img');
           imgEl.className = 'jacket-img';
           imgEl.crossOrigin = 'anonymous';
 
-          const primaryUrl = `https://res.sekai.best/sekai-jp-assets/music/jacket/jacket_s_${jacketId}_rip/jacket_s_${jacketId}.png`;
-          const fallbackUrl1 = `https://res.sekai.best/sekai-jp-assets/music/jacket/jacket_s_${jacketId}/jacket_s_${jacketId}.png`;
-          const fallbackUrl2 = `https://storage.sekai.best/sekai-jp-assets/music/jacket/jacket_s_${jacketId}/jacket_s_${jacketId}.png`;
+          let sources = [];
+          if (jacketInput.startsWith('http://') || jacketInput.startsWith('https://')) {
+            sources = [
+              `https://wsrv.nl/?url=${encodeURIComponent(jacketInput)}`,
+              jacketInput
+            ];
+          } else {
+            const paddedId = jacketInput;
+            sources = [
+              `https://wsrv.nl/?url=https://asset.pjsekai.moe/startapp/music/jacket/jacket_s_${paddedId}/jacket_s_${paddedId}.png`,
+              `https://wsrv.nl/?url=https://res.sekai.best/sekai-jp-assets/music/jacket/jacket_s_${paddedId}/jacket_s_${paddedId}.png`,
+              `https://wsrv.nl/?url=https://res.sekai.best/sekai-jp-assets/music/jacket/jacket_s_${paddedId}_rip/jacket_s_${paddedId}.png`,
+              `https://asset.pjsekai.moe/startapp/music/jacket/jacket_s_${paddedId}/jacket_s_${paddedId}.png`,
+              `https://res.sekai.best/sekai-jp-assets/music/jacket/jacket_s_${paddedId}/jacket_s_${paddedId}.png`
+            ];
+          }
 
-          imgEl.src = primaryUrl;
+          let currentSrcIndex = 0;
+          imgEl.src = sources[0];
 
-          let tryCount = 0;
           imgEl.onerror = () => {
-            tryCount++;
-            if (tryCount === 1) {
-              imgEl.src = fallbackUrl1;
-            } else if (tryCount === 2) {
-              imgEl.src = fallbackUrl2;
-            } else if (tryCount === 3) {
-              imgEl.removeAttribute('crossorigin');
-              imgEl.src = primaryUrl;
+            currentSrcIndex++;
+            if (currentSrcIndex < sources.length) {
+              if (!sources[currentSrcIndex].includes('wsrv.nl')) {
+                imgEl.removeAttribute('crossorigin');
+              }
+              imgEl.src = sources[currentSrcIndex];
             }
           };
 
@@ -856,12 +867,16 @@
     if (!activeModalKey) return;
     const inputVal = document.getElementById('modal-id-input').value.trim();
     if (inputVal !== '') {
-      let cleanId = inputVal.replace(/[^0-9]/g, '');
-      if (cleanId.length > 0) {
-        let paddedId = cleanId.padStart(3, '0');
-        jacketMap[activeModalKey] = paddedId;
+      if (inputVal.startsWith('http://') || inputVal.startsWith('https://')) {
+        jacketMap[activeModalKey] = inputVal;
       } else {
-        delete jacketMap[activeModalKey];
+        let cleanId = inputVal.replace(/[^0-9]/g, '');
+        if (cleanId.length > 0) {
+          let paddedId = cleanId.padStart(3, '0');
+          jacketMap[activeModalKey] = paddedId;
+        } else {
+          delete jacketMap[activeModalKey];
+        }
       }
     } else {
       delete jacketMap[activeModalKey];
