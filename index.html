@@ -6,19 +6,18 @@
 <title>SEKAI FORCE Calculator</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
-    
   @font-face {
-  font-family: 'Cafe24SurroundAir';
-  src: url('https://gcore.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24SsurroundAir.woff') format('woff');
-  font-weight: normal;
-  font-display: swap;
+    font-family: 'Cafe24SurroundAir';
+    src: url('https://gcore.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24SsurroundAir.woff') format('woff');
+    font-weight: normal;
+    font-display: swap;
   }
 
   @font-face {
-  font-family: 'Cafe24Surround';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24Ssurround.woff') format('woff');
-  font-weight: normal;
-  font-display: swap;
+    font-family: 'Cafe24Surround';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24Ssurround.woff') format('woff');
+    font-weight: normal;
+    font-display: swap;
   } 
 
   body {
@@ -64,7 +63,7 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
-    min-width: 300px;
+    min-width: 320px;
   }
   .tabs {
     display: flex;
@@ -85,7 +84,6 @@
     border-bottom: 2px solid #0bc;
   }
 
-  /* 레벨 입력창 가로 정렬 그리드 레이아웃 */
   .horizontal-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -149,7 +147,7 @@
     font-size: 11px;
     margin-top: 2px;
   }
-  input[type="number"], input[type="text"], textarea {
+  input[type="number"], input[type="text"] {
     font-family: inherit; 
     background: #121212;
     border: 1px solid #555;
@@ -168,18 +166,7 @@
     font-size: 15px;
     box-sizing: border-box;
   }
-  textarea {
-    width: 100%;
-    padding: 10px;
-    font-size: 14px;
-    box-sizing: border-box;
-    resize: none;
-    overflow: hidden;
-    min-height: 50px;
-    font-family: 'Cafe24SurroundAir', sans-serif;
-    line-height: 1.4;
-  }
-  input:focus, textarea:focus {
+  input:focus {
     outline: none;
     border-color: #0bc;
   }
@@ -228,6 +215,147 @@
     font-size: 13px;
     color: #888;
     margin-top: 10px;
+  }
+
+  /* 주요 성과 이미지 박스 스타일 */
+  .major-achievements-box {
+    background: #1e1e1e;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid #333;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  }
+  .major-achievements-title {
+    font-size: 14px;
+    color: #aaa;
+    font-weight: bold;
+    margin-bottom: 12px;
+  }
+  .jackets-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 8px;
+    width: 100%;
+  }
+  .jacket-slot {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
+  .jacket-card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #252525;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .jacket-shadow {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0) 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .card-level-badge {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    user-select: none;
+    z-index: 2;
+  }
+  .card-rank-text {
+    position: absolute;
+    bottom: 6px;
+    left: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #fff;
+    z-index: 2;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+  }
+  .card-score-text {
+    position: absolute;
+    bottom: 6px;
+    right: 6px;
+    font-size: 11px;
+    font-weight: bold;
+    z-index: 2;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+  }
+  .btn-add-jacket {
+    position: absolute;
+    z-index: 3;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: bold;
+    background-color: #333; 
+    color: #ddd;
+    border: 1px solid #555;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-family: inherit;
+  }
+  .btn-add-jacket:hover {
+    background: #444;
+  }
+
+  /* 모달 스타일 */
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  .modal-content {
+    background: #1e1e1e;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #444;
+    width: 320px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+  }
+  .modal-content h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 16px;
+    color: #0bc;
+  }
+  .modal-footer {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .modal-find-link {
+    color: #aaa;
+    font-size: 12px;
+    text-decoration: underline;
+  }
+  .modal-find-link:hover {
+    color: #0bc;
+  }
+  .modal-buttons {
+    display: flex;
+    gap: 6px;
   }
 
   .info-box {
@@ -282,7 +410,7 @@
 <body>
 
 <div class="main-container" id="capture-area">
-  <h1><span style= "font-family: 'Cafe24Surround', sans-serif;">SEKAI FORCE Calculator</span></h1>
+  <h1><span style="font-family: 'Cafe24Surround', sans-serif;">SEKAI FORCE Calculator</span></h1>
   
   <div class="content-wrapper">
     <div class="left-panel">
@@ -290,7 +418,6 @@
         <div class="tab active" onclick="switchTab('mas', event)">MASTER 이하 (39곡)</div>
         <div class="tab" onclick="switchTab('apd', event)">APPEND (26곡)</div>
       </div>
-      <!-- 가로 정렬 그리드 컨테이너 -->
       <div id="input-container" class="horizontal-grid">
         <!-- JS 동적 생성 -->
       </div>
@@ -309,9 +436,12 @@
         <div class="next-rank" id="next-rank">다음 등급까지 남은 점수: 2000.0</div>
       </div>
 
-      <div class="nickname-box">
-        <label for="appeal-input">주요 성과 어필</label>
-        <textarea id="appeal-input" maxlength="100" placeholder="자유롭게 적어주세요. (100자 이내)"></textarea>
+      <!-- 주요 성과 이미지 탭 -->
+      <div class="major-achievements-box">
+        <div class="major-achievements-title">주요 성과</div>
+        <div class="jackets-grid" id="jackets-grid">
+          <!-- JS 동적 생성 (3x2) -->
+        </div>
       </div>
 
       <div id="info-box" class="info-box"></div>
@@ -320,7 +450,23 @@
         <button class="btn btn-save" onclick="saveData()">기록 저장</button>
         <button class="btn btn-load" onclick="loadData()">불러오기</button>
         <button class="btn btn-reset" onclick="resetData()">내역 초기화</button>
-        <button class="btn btn-capture" onclick="captureScreen()">이미지로 저장</button>
+        <button class="btn btn-capture" onclick="captureScreen()">이미지 출력 (데스크탑 환경 권장)</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ID 입력 모달 -->
+<div id="jacket-modal" class="modal-overlay" style="display: none;">
+  <div class="modal-content">
+    <h3>자켓 이미지 ID 입력</h3>
+    <input type="text" id="modal-id-input" placeholder="ID 입력 (예: 6, 47, 187, 671)" style="width: 100%; padding: 10px; box-sizing: border-box; margin-top: 5px;">
+    <div class="modal-footer">
+      <a href="https://sekai.best/music" target="_blank" class="modal-find-link">ID 찾기 (번호)</a>
+      <div class="modal-buttons">
+        <button class="btn btn-save" style="padding: 6px 12px; min-width: auto; font-size: 12px;" onclick="submitJacketId()">확인</button>
+        <button class="btn btn-reset" style="padding: 6px 12px; min-width: auto; font-size: 12px;" onclick="deleteJacketId()">삭제</button>
+        <button class="btn btn-load" style="padding: 6px 12px; min-width: auto; font-size: 12px;" onclick="closeJacketModal()">취소</button>
       </div>
     </div>
   </div>
@@ -328,8 +474,10 @@
 
 <script>
   let currentMode = 'mas';
-  let appealMAS = '';
-  let appealAPD = '';
+
+  const jacketMap = {};
+  const badgeColorState = {};
+  let activeModalKey = null;
 
   const ranks = [
     { name: "비기너 I", min: 2000 },
@@ -370,40 +518,15 @@
   function init() {
     for (let i = 17; i <= 37; i++) dataMAS[i] = { fc: 0, ap: 0 };
     for (let i = 24; i <= 38; i++) dataAPD[i] = { fc: 0, ap: 0 };
-    
-    const appealInput = document.getElementById('appeal-input');
-    appealInput.addEventListener('input', function() {
-      if (currentMode === 'mas') {
-        appealMAS = this.value;
-      } else {
-        appealAPD = this.value;
-      }
-      adjustTextareaHeight(this);
-    });
 
     renderInputs();
     calculate();
   }
 
-  function adjustTextareaHeight(el) {
-    el.style.height = 'auto';
-    el.style.height = el.scrollHeight + 'px';
-  }
-
   function switchTab(mode, event) {
-    const appealInput = document.getElementById('appeal-input');
-    if (currentMode === 'mas') {
-      appealMAS = appealInput.value;
-    } else {
-      appealAPD = appealInput.value;
-    }
-
     currentMode = mode;
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     event.target.classList.add('active');
-
-    appealInput.value = (currentMode === 'mas') ? appealMAS : appealAPD;
-    adjustTextareaHeight(appealInput);
 
     renderInputs();
     calculate();
@@ -492,12 +615,33 @@
     const maxCount = currentMode === 'mas' ? 39 : 26;
     const data = currentMode === 'mas' ? dataMAS : dataAPD;
     const multiplier = currentMode === 'apd' ? 1.42 : 1.0;
-    const modePrefix = currentMode === 'apd' ? 'Lv.APD' : 'Lv.';
+    const modePrefix = currentMode === 'apd' ? 'APD' : 'Lv.';
+
+    let apCounts = {};
+    let fcCounts = {};
 
     for (const [level, counts] of Object.entries(data)) {
       const lvl = parseInt(level);
-      for (let i = 0; i < counts.ap; i++) allAchievements.push({ lvl: lvl, type: 'AP', score: lvl * 8.0 * multiplier });
-      for (let i = 0; i < counts.fc; i++) allAchievements.push({ lvl: lvl, type: 'FC', score: lvl * 7.5 * multiplier });
+      for (let i = 0; i < counts.ap; i++) {
+        let dupIdx = apCounts[lvl] || 0;
+        apCounts[lvl] = dupIdx + 1;
+        allAchievements.push({
+          lvl: lvl,
+          type: 'AP',
+          score: lvl * 8.0 * multiplier,
+          key: `${currentMode}_${lvl}_AP_${dupIdx}`
+        });
+      }
+      for (let i = 0; i < counts.fc; i++) {
+        let dupIdx = fcCounts[lvl] || 0;
+        fcCounts[lvl] = dupIdx + 1;
+        allAchievements.push({
+          lvl: lvl,
+          type: 'FC',
+          score: lvl * 7.5 * multiplier,
+          key: `${currentMode}_${lvl}_FC_${dupIdx}`
+        });
+      }
     }
 
     allAchievements.sort((a, b) => {
@@ -526,10 +670,10 @@
       let msgTexts = [];
       for (let key in excludedMap) {
         let ex = excludedMap[key];
-        msgTexts.push(`${modePrefix}${ex.lvl}의 ${ex.type} 성과 ${ex.count}개가`);
+        msgTexts.push(`${modePrefix}${ex.lvl}의 ${ex.type} 성과 ${ex.count}개`);
       }
       
-      infoBox.innerHTML = msgTexts.join(', ') + ' 점수 계산에서 제외되었습니다.';
+      infoBox.innerHTML = msgTexts.join(', ') + '가 점수 계산에서 제외되었습니다.';
       infoBox.style.display = 'block';
     } else {
       infoBox.style.display = 'none';
@@ -537,6 +681,169 @@
 
     document.getElementById('final-score').innerText = finalScore.toFixed(1);
     updateRank(finalScore);
+    renderMajorAchievements(allAchievements);
+  }
+
+  function getDefaultBadgeColor(level, mode) {
+    if (mode === 'apd') return '#f7c';
+    if (level >= 33) return '#c3f';
+    if (level >= 27 && level <= 32) return '#c3f';
+    if (level === 26) return '#f47';
+    if (level === 25) return '#f47';
+    if (level >= 22 && level <= 24) return '#f47';
+    if (level === 21) return '#fc0';
+    if (level >= 17 && level <= 20) return '#fc0';
+    return '#c3f';
+  }
+
+  function cycleBadgeColor(level, mode, currentColor) {
+    if (mode === 'apd' || level >= 33 || (level >= 17 && level <= 20)) {
+      return currentColor;
+    }
+    if (level >= 26 && level <= 32) {
+      return currentColor === '#c3f' ? '#f47' : '#c3f';
+    }
+    if (level === 25) {
+      if (currentColor === '#f47') return '#c3f';
+      if (currentColor === '#c3f') return '#fc0';
+      return '#f47';
+    }
+    if (level >= 21 && level <= 24) {
+      return currentColor === '#f47' ? '#fc0' : '#f47';
+    }
+    return currentColor;
+  }
+
+  function renderMajorAchievements(allAchievements) {
+    const grid = document.getElementById('jackets-grid');
+    grid.innerHTML = '';
+
+    const apList = allAchievements.filter(a => a.type === 'AP');
+    const fcList = allAchievements.filter(a => a.type === 'FC');
+
+    const slots = [null, null, null, null, null, null];
+
+    if (apList.length > 0 && fcList.length > 0) {
+      for (let i = 0; i < Math.min(3, apList.length); i++) {
+        slots[i] = { ...apList[i], rankLabel: `#${i + 1}` };
+      }
+      for (let i = 0; i < Math.min(3, fcList.length); i++) {
+        slots[i + 3] = { ...fcList[i], rankLabel: `#${i + 1}` };
+      }
+    } else if (apList.length > 0) {
+      for (let i = 0; i < Math.min(6, apList.length); i++) {
+        slots[i] = { ...apList[i], rankLabel: `#${i + 1}` };
+      }
+    } else if (fcList.length > 0) {
+      for (let i = 0; i < Math.min(6, fcList.length); i++) {
+        slots[i] = { ...fcList[i], rankLabel: `#${i + 1}` };
+      }
+    }
+
+    slots.forEach((item) => {
+      const slotDiv = document.createElement('div');
+      slotDiv.className = 'jacket-slot';
+
+      if (item) {
+        const cardDiv = document.createElement('div');
+        cardDiv.className = 'jacket-card';
+        cardDiv.onclick = () => openJacketModal(item.key);
+
+        const jacketId = jacketMap[item.key];
+
+        if (jacketId) {
+          // 이미지가 추가된 경우: 이미지 배경 및 어두운 섀도우 추가 (변경 버튼은 노출하지 않음)
+          cardDiv.style.backgroundImage = `url('https://asset.rilaksekai.com/cover/${jacketId}.webp')`;
+          
+          const shadowDiv = document.createElement('div');
+          shadowDiv.className = 'jacket-shadow';
+          cardDiv.appendChild(shadowDiv);
+        } else {
+          // 이미지가 설정되지 않은 경우: 추가 버튼 노출
+          const addBtn = document.createElement('button');
+          addBtn.className = 'btn-add-jacket';
+          addBtn.innerText = '추가';
+          addBtn.onclick = (e) => {
+            e.stopPropagation();
+            openJacketModal(item.key);
+          };
+          cardDiv.appendChild(addBtn);
+        }
+
+        let defaultColor = getDefaultBadgeColor(item.lvl, currentMode);
+        let currentColor = badgeColorState[item.key] || defaultColor;
+        let textColor = (currentColor === '#fc0') ? '#121212' : '#ffffff';
+
+        const badgeDiv = document.createElement('div');
+        badgeDiv.className = 'card-level-badge';
+        badgeDiv.style.backgroundColor = currentColor;
+        badgeDiv.style.color = textColor;
+        badgeDiv.innerText = currentMode === 'apd' ? `APD${item.lvl}` : item.lvl;
+
+        badgeDiv.onclick = (e) => {
+          e.stopPropagation();
+          let cur = badgeColorState[item.key] || defaultColor;
+          const nextColor = cycleBadgeColor(item.lvl, currentMode, cur);
+          badgeColorState[item.key] = nextColor;
+          badgeDiv.style.backgroundColor = nextColor;
+          badgeDiv.style.color = (nextColor === '#fc0') ? '#121212' : '#ffffff';
+        };
+
+        const rankDiv = document.createElement('div');
+        rankDiv.className = 'card-rank-text';
+        rankDiv.innerText = item.rankLabel;
+
+        const scoreDiv = document.createElement('div');
+        scoreDiv.className = 'card-score-text';
+        scoreDiv.innerText = item.score.toFixed(1);
+        scoreDiv.style.color = (item.type === 'AP') ? '#81fafa' : '#ff80ab';
+
+        cardDiv.appendChild(badgeDiv);
+        cardDiv.appendChild(rankDiv);
+        cardDiv.appendChild(scoreDiv);
+
+        slotDiv.appendChild(cardDiv);
+      }
+
+      grid.appendChild(slotDiv);
+    });
+  }
+
+  function openJacketModal(key) {
+    activeModalKey = key;
+    const modal = document.getElementById('jacket-modal');
+    const input = document.getElementById('modal-id-input');
+    input.value = jacketMap[key] || '';
+    modal.style.display = 'flex';
+    input.focus();
+  }
+
+  function closeJacketModal() {
+    document.getElementById('jacket-modal').style.display = 'none';
+    activeModalKey = null;
+  }
+
+  function submitJacketId() {
+    if (!activeModalKey) return;
+    const inputVal = document.getElementById('modal-id-input').value.trim();
+    if (inputVal !== '') {
+      let paddedId = String(inputVal);
+      while (paddedId.length < 3) {
+        paddedId = '0' + paddedId;
+      }
+      jacketMap[activeModalKey] = paddedId;
+    } else {
+      delete jacketMap[activeModalKey];
+    }
+    closeJacketModal();
+    calculate();
+  }
+
+  function deleteJacketId() {
+    if (!activeModalKey) return;
+    delete jacketMap[activeModalKey];
+    closeJacketModal();
+    calculate();
   }
 
   function updateRank(score) {
@@ -566,19 +873,12 @@
   }
 
   function saveData() {
-    const appealInput = document.getElementById('appeal-input');
-    if (currentMode === 'mas') {
-      appealMAS = appealInput.value;
-    } else {
-      appealAPD = appealInput.value;
-    }
-
     const saveData = {
       mas: dataMAS,
       apd: dataAPD,
       nickname: document.getElementById('nickname-input').value,
-      appealMAS: appealMAS,
-      appealAPD: appealAPD
+      jacketMap: jacketMap,
+      badgeColorState: badgeColorState
     };
     const blob = new Blob([JSON.stringify(saveData, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -603,19 +903,9 @@
           if (rawData.mas) Object.assign(dataMAS, rawData.mas);
           if (rawData.apd) Object.assign(dataAPD, rawData.apd);
           if (rawData.nickname !== undefined) document.getElementById('nickname-input').value = rawData.nickname;
-          
-          if (rawData.appealMAS !== undefined) {
-            appealMAS = rawData.appealMAS;
-          } else if (rawData.appeal !== undefined) {
-            appealMAS = rawData.appeal;
-          }
-          if (rawData.appealAPD !== undefined) {
-            appealAPD = rawData.appealAPD;
-          }
 
-          const appealInput = document.getElementById('appeal-input');
-          appealInput.value = (currentMode === 'mas') ? appealMAS : appealAPD;
-          adjustTextareaHeight(appealInput);
+          if (rawData.jacketMap) Object.assign(jacketMap, rawData.jacketMap);
+          if (rawData.badgeColorState) Object.assign(badgeColorState, rawData.badgeColorState);
 
           renderInputs();
           calculate();
@@ -633,12 +923,10 @@
     if (!confirm("모든 입력 내역을 초기화하시겠습니까?")) return;
     for (let i = 17; i <= 37; i++) dataMAS[i] = { fc: 0, ap: 0 };
     for (let i = 24; i <= 38; i++) dataAPD[i] = { fc: 0, ap: 0 };
-    appealMAS = '';
-    appealAPD = '';
+    for (let key in jacketMap) delete jacketMap[key];
+    for (let key in badgeColorState) delete badgeColorState[key];
+    
     document.getElementById('nickname-input').value = '';
-    const appealInput = document.getElementById('appeal-input');
-    appealInput.value = '';
-    adjustTextareaHeight(appealInput);
     renderInputs();
     calculate();
   }
@@ -681,8 +969,8 @@
       }
     });
 
-    const appealInput = document.getElementById('appeal-input');
-    const originalAppealVal = appealInput.value;
+    const nicknameInput = document.getElementById('nickname-input');
+    const originalNickVal = nicknameInput.value;
 
     const scoreElement = document.getElementById('final-score');
     const currentScoreText = scoreElement ? scoreElement.innerText : '0.0';
@@ -718,7 +1006,6 @@
           clonedCaptureArea.style.width = 'fit-content';
         }
 
-        // 점수 계산 제외 알림 박스를 이미지 캡처 시 왼쪽 패널(왼쪽 아래)로 이동
         const clonedInfoBox = clonedDoc.getElementById('info-box');
         if (clonedInfoBox && clonedInfoBox.style.display !== 'none' && clonedLeftPanel) {
           clonedInfoBox.parentNode.removeChild(clonedInfoBox);
@@ -733,29 +1020,22 @@
           }
         });
 
-        // 텍스트아레아를 div로 치환하여 줄바꿈 적용 및 overflow 방지 (파묻히는 현상 수정)
-        const clonedAppeal = clonedDoc.getElementById('appeal-input');
-        if (clonedAppeal) {
-          const parent = clonedAppeal.parentNode;
+        const clonedNick = clonedDoc.getElementById('nickname-input');
+        if (clonedNick) {
+          const nickParent = clonedNick.parentNode;
           const div = clonedDoc.createElement('div');
-          div.style.cssText = window.getComputedStyle(appealInput).cssText;
-          div.style.display = 'block';
-          div.style.whiteSpace = 'pre-wrap';
-          div.style.wordBreak = 'break-all';
-          div.style.overflow = 'visible';
-          div.style.height = 'auto';
-          div.style.minHeight = '50px';
-          
-          let textToDisplay = originalAppealVal.trim();
-          if (!textToDisplay) {
-            textToDisplay = "내용이 없습니다.";
-          }
-          div.innerText = textToDisplay;
-          parent.replaceChild(div, clonedAppeal);
+          div.style.fontFamily = "'Cafe24SurroundAir', sans-serif";
+          div.style.color = '#fff';
+          div.style.fontSize = '16px';
+          div.style.fontWeight = 'bold';
+          div.style.padding = '8px 0';
+          div.innerText = originalNickVal.trim() || "세카이의 주민";
+          nickParent.replaceChild(div, clonedNick);
         }
       }
     }).then(canvas => {
       btnGroup.style.display = 'flex';
+
       inputContainer.style.gridTemplateColumns = '';
       inputContainer.style.width = '';
       leftPanel.style.flex = '';
@@ -763,7 +1043,6 @@
       captureArea.style.width = '';
       
       hiddenRows.forEach(row => row.classList.remove('capture-hide'));
-      
       hiddenInputs.forEach(input => {
         input.value = input.dataset.originalValue || '0';
       });
@@ -775,6 +1054,7 @@
     }).catch(err => {
       console.error("캡처 중 오류 발생:", err);
       btnGroup.style.display = 'flex';
+
       inputContainer.style.gridTemplateColumns = '';
       inputContainer.style.width = '';
       leftPanel.style.flex = '';
