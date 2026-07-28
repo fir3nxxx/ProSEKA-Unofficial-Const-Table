@@ -123,7 +123,8 @@
     padding: 4px 6px;
     border-radius: 6px;
     text-align: center;
-    width: 75px;
+    min-width: 75px;
+    box-sizing: border-box;
     white-space: nowrap;
   }
   .input-group {
@@ -217,7 +218,6 @@
     margin-top: 10px;
   }
 
-  /* 주요 성과 이미지 박스 스타일 */
   .major-achievements-box {
     background: #1e1e1e;
     padding: 15px;
@@ -252,17 +252,25 @@
     border-radius: 8px;
     overflow: hidden;
     background-color: #252525;
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
     cursor: pointer;
+  }
+  .jacket-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
   }
   .jacket-shadow {
     position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0) 100%);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.85) 100%);
     pointer-events: none;
     z-index: 1;
   }
@@ -281,8 +289,8 @@
   .card-rank-text {
     position: absolute;
     bottom: 6px;
-    left: 6px;
-    font-size: 12px;
+    left: 8px;
+    font-size: 11px;
     font-weight: bold;
     color: #fff;
     z-index: 2;
@@ -299,6 +307,9 @@
   }
   .btn-add-jacket {
     position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: 3;
     padding: 5px 12px;
     font-size: 12px;
@@ -315,7 +326,6 @@
     background: #444;
   }
 
-  /* 모달 스타일 */
   .modal-overlay {
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;
@@ -436,11 +446,10 @@
         <div class="next-rank" id="next-rank">다음 등급까지 남은 점수: 2000.0</div>
       </div>
 
-      <!-- 주요 성과 이미지 탭 -->
       <div class="major-achievements-box">
         <div class="major-achievements-title">주요 성과</div>
         <div class="jackets-grid" id="jackets-grid">
-          <!-- JS 동적 생성 (3x2) -->
+          <!-- JS 동적 생성 -->
         </div>
       </div>
 
@@ -456,7 +465,6 @@
   </div>
 </div>
 
-<!-- ID 입력 모달 -->
 <div id="jacket-modal" class="modal-overlay" style="display: none;">
   <div class="modal-content">
     <h3>자켓 이미지 ID 입력</h3>
@@ -559,11 +567,11 @@
       let badgeColor = '#fff';
       if (currentMode === 'mas') {
         if (level >= 27 && level <= 37) {
-          badgeBg = '#c3f';
+          badgeBg = '#c3fd';
         } else if (level >= 22 && level <= 26) {
-          badgeBg = '#f47';
+          badgeBg = '#f47d';
         } else if (level >= 17 && level <= 21) {
-          badgeBg = '#fc0';
+          badgeBg = '#fc0d';
           badgeColor = '#121212';
         }
       } else {
@@ -615,7 +623,7 @@
     const maxCount = currentMode === 'mas' ? 39 : 26;
     const data = currentMode === 'mas' ? dataMAS : dataAPD;
     const multiplier = currentMode === 'apd' ? 1.42 : 1.0;
-    const modePrefix = currentMode === 'apd' ? 'APD' : 'Lv.';
+    const modePrefix = currentMode === 'apd' ? 'Lv.APD' : 'Lv.';
 
     let apCounts = {};
     let fcCounts = {};
@@ -685,15 +693,15 @@
   }
 
   function getDefaultBadgeColor(level, mode) {
-    if (mode === 'apd') return '#f7c';
-    if (level >= 33) return '#c3f';
-    if (level >= 27 && level <= 32) return '#c3f';
-    if (level === 26) return '#f47';
-    if (level === 25) return '#f47';
-    if (level >= 22 && level <= 24) return '#f47';
-    if (level === 21) return '#fc0';
-    if (level >= 17 && level <= 20) return '#fc0';
-    return '#c3f';
+    if (mode === 'apd') return '#f7cd';
+    if (level >= 33) return '#c3fd';
+    if (level >= 27 && level <= 32) return '#c3fd';
+    if (level === 26) return '#f47d';
+    if (level === 25) return '#f47d';
+    if (level >= 22 && level <= 24) return '#f47d';
+    if (level === 21) return '#fc0d';
+    if (level >= 17 && level <= 20) return '#fc0d';
+    return '#c3fd';
   }
 
   function cycleBadgeColor(level, mode, currentColor) {
@@ -701,15 +709,15 @@
       return currentColor;
     }
     if (level >= 26 && level <= 32) {
-      return currentColor === '#c3f' ? '#f47' : '#c3f';
+      return currentColor === '#c3fd' ? '#f47d' : '#c3fd';
     }
     if (level === 25) {
-      if (currentColor === '#f47') return '#c3f';
-      if (currentColor === '#c3f') return '#fc0';
-      return '#f47';
+      if (currentColor === '#f47d') return '#c3fd';
+      if (currentColor === '#c3fd') return '#fc0d';
+      return '#f47d';
     }
     if (level >= 21 && level <= 24) {
-      return currentColor === '#f47' ? '#fc0' : '#f47';
+      return currentColor === '#f47d' ? '#fc0d' : '#f47d';
     }
     return currentColor;
   }
@@ -725,18 +733,18 @@
 
     if (apList.length > 0 && fcList.length > 0) {
       for (let i = 0; i < Math.min(3, apList.length); i++) {
-        slots[i] = { ...apList[i], rankLabel: `#${i + 1}` };
+        slots[i] = { ...apList[i], rankLabel: `AP #${i + 1}` };
       }
       for (let i = 0; i < Math.min(3, fcList.length); i++) {
-        slots[i + 3] = { ...fcList[i], rankLabel: `#${i + 1}` };
+        slots[i + 3] = { ...fcList[i], rankLabel: `FC #${i + 1}` };
       }
     } else if (apList.length > 0) {
       for (let i = 0; i < Math.min(6, apList.length); i++) {
-        slots[i] = { ...apList[i], rankLabel: `#${i + 1}` };
+        slots[i] = { ...apList[i], rankLabel: `AP #${i + 1}` };
       }
     } else if (fcList.length > 0) {
       for (let i = 0; i < Math.min(6, fcList.length); i++) {
-        slots[i] = { ...fcList[i], rankLabel: `#${i + 1}` };
+        slots[i] = { ...fcList[i], rankLabel: `FC #${i + 1}` };
       }
     }
 
@@ -752,14 +760,16 @@
         const jacketId = jacketMap[item.key];
 
         if (jacketId) {
-          // 이미지가 추가된 경우: 이미지 배경 및 어두운 섀도우 추가 (변경 버튼은 노출하지 않음)
-          cardDiv.style.backgroundImage = `url('https://asset.rilaksekai.com/cover/${jacketId}.webp')`;
+          const imgEl = document.createElement('img');
+          imgEl.className = 'jacket-img';
+          imgEl.src = `https://storage.sekai.best/sekai-jp-assets/music/jacket/jacket_s_${jacketId}/jacket_s_${jacketId}.png`;
+          imgEl.crossOrigin = 'anonymous';
+          cardDiv.appendChild(imgEl);
           
           const shadowDiv = document.createElement('div');
           shadowDiv.className = 'jacket-shadow';
           cardDiv.appendChild(shadowDiv);
         } else {
-          // 이미지가 설정되지 않은 경우: 추가 버튼 노출
           const addBtn = document.createElement('button');
           addBtn.className = 'btn-add-jacket';
           addBtn.innerText = '추가';
@@ -938,6 +948,7 @@
     const captureArea = document.getElementById('capture-area');
     const inputContainer = document.getElementById('input-container');
     const leftPanel = document.querySelector('.left-panel');
+    const rightPanel = document.querySelector('.right-panel');
     const contentWrapper = document.querySelector('.content-wrapper');
 
     const firstRow = document.querySelector('.row');
@@ -946,6 +957,11 @@
     inputContainer.style.gridTemplateColumns = `repeat(2, ${rowWidth}px)`;
     inputContainer.style.width = `${rowWidth * 2 + 12}px`;
     leftPanel.style.flex = '0 0 auto';
+
+    /* 우측 패널 너비를 고정하여 자켓 카드 크기가 모드별로 변하지 않도록 고정 */
+    rightPanel.style.width = '340px';
+    rightPanel.style.flex = '0 0 340px';
+
     contentWrapper.style.gap = '20px';
     captureArea.style.width = 'fit-content';
 
@@ -975,97 +991,137 @@
     const scoreElement = document.getElementById('final-score');
     const currentScoreText = scoreElement ? scoreElement.innerText : '0.0';
 
-    html2canvas(captureArea, {
-      backgroundColor: '#121212', 
-      scale: 2, 
-      useCORS: true,
-      onclone: (clonedDoc) => {
-        const clonedScore = clonedDoc.getElementById('final-score');
-        if (clonedScore) {
-          clonedScore.innerText = currentScoreText;
-        }
-        
-        const clonedContainer = clonedDoc.getElementById('input-container');
-        if (clonedContainer) {
-          clonedContainer.style.gridTemplateColumns = `repeat(2, ${rowWidth}px)`;
-          clonedContainer.style.width = `${rowWidth * 2 + 12}px`;
-        }
+    const imgs = captureArea.querySelectorAll('img');
+    const imgPromises = Array.from(imgs).map(img => {
+      if (img.complete) return Promise.resolve();
+      return new Promise(resolve => {
+        img.onload = resolve;
+        img.onerror = resolve;
+      });
+    });
 
-        const clonedLeftPanel = clonedDoc.querySelector('.left-panel');
-        if (clonedLeftPanel) {
-          clonedLeftPanel.style.flex = '0 0 auto';
-        }
-
-        const clonedContentWrapper = clonedDoc.querySelector('.content-wrapper');
-        if (clonedContentWrapper) {
-          clonedContentWrapper.style.gap = '20px';
-        }
-
-        const clonedCaptureArea = clonedDoc.getElementById('capture-area');
-        if (clonedCaptureArea) {
-          clonedCaptureArea.style.width = 'fit-content';
-        }
-
-        const clonedInfoBox = clonedDoc.getElementById('info-box');
-        if (clonedInfoBox && clonedInfoBox.style.display !== 'none' && clonedLeftPanel) {
-          clonedInfoBox.parentNode.removeChild(clonedInfoBox);
-          clonedInfoBox.style.marginTop = '15px';
-          clonedLeftPanel.appendChild(clonedInfoBox);
-        }
-
-        const clonedInputs = clonedDoc.querySelectorAll('input[type="number"]');
-        clonedInputs.forEach(input => {
-          if (input.value === '0') {
-            input.value = '';
+    Promise.all(imgPromises).then(() => {
+      html2canvas(captureArea, {
+        backgroundColor: '#121212', 
+        scale: 2, 
+        useCORS: true,
+        allowTaint: false,
+        onclone: (clonedDoc) => {
+          const clonedRightPanel = clonedDoc.querySelector('.right-panel');
+          if (clonedRightPanel) {
+            clonedRightPanel.style.width = '340px';
+            clonedRightPanel.style.flex = '0 0 340px';
           }
+
+          const clonedSlots = clonedDoc.querySelectorAll('.jacket-slot');
+          clonedSlots.forEach(slot => {
+            const size = slot.offsetWidth;
+            if (size > 0) {
+              slot.style.height = `${size}px`;
+              const card = slot.querySelector('.jacket-card');
+              if (card) card.style.height = `${size}px`;
+              const shadow = slot.querySelector('.jacket-shadow');
+              if (shadow) {
+                shadow.style.position = 'absolute';
+                shadow.style.top = '0px';
+                shadow.style.left = '0px';
+                shadow.style.width = `${size}px`;
+                shadow.style.height = `${size}px`;
+              }
+            }
+          });
+
+          const clonedScore = clonedDoc.getElementById('final-score');
+          if (clonedScore) {
+            clonedScore.innerText = currentScoreText;
+          }
+          
+          const clonedContainer = clonedDoc.getElementById('input-container');
+          if (clonedContainer) {
+            clonedContainer.style.gridTemplateColumns = `repeat(2, ${rowWidth}px)`;
+            clonedContainer.style.width = `${rowWidth * 2 + 12}px`;
+          }
+
+          const clonedLeftPanel = clonedDoc.querySelector('.left-panel');
+          if (clonedLeftPanel) {
+            clonedLeftPanel.style.flex = '0 0 auto';
+          }
+
+          const clonedContentWrapper = clonedDoc.querySelector('.content-wrapper');
+          if (clonedContentWrapper) {
+            clonedContentWrapper.style.gap = '20px';
+          }
+
+          const clonedCaptureArea = clonedDoc.getElementById('capture-area');
+          if (clonedCaptureArea) {
+            clonedCaptureArea.style.width = 'fit-content';
+          }
+
+          const clonedInfoBox = clonedDoc.getElementById('info-box');
+          if (clonedInfoBox && clonedInfoBox.style.display !== 'none' && clonedLeftPanel) {
+            clonedInfoBox.parentNode.removeChild(clonedInfoBox);
+            clonedInfoBox.style.marginTop = '15px';
+            clonedLeftPanel.appendChild(clonedInfoBox);
+          }
+
+          const clonedInputs = clonedDoc.querySelectorAll('input[type="number"]');
+          clonedInputs.forEach(input => {
+            if (input.value === '0') {
+              input.value = '';
+            }
+          });
+
+          const clonedNick = clonedDoc.getElementById('nickname-input');
+          if (clonedNick) {
+            const nickParent = clonedNick.parentNode;
+            const div = clonedDoc.createElement('div');
+            div.style.fontFamily = "'Cafe24SurroundAir', sans-serif";
+            div.style.color = '#fff';
+            div.style.fontSize = '16px';
+            div.style.fontWeight = 'bold';
+            div.style.padding = '8px 0';
+            div.innerText = originalNickVal.trim() || "세카이의 주민";
+            nickParent.replaceChild(div, clonedNick);
+          }
+        }
+      }).then(canvas => {
+        btnGroup.style.display = 'flex';
+
+        inputContainer.style.gridTemplateColumns = '';
+        inputContainer.style.width = '';
+        leftPanel.style.flex = '';
+        rightPanel.style.width = '';
+        rightPanel.style.flex = '';
+        contentWrapper.style.gap = '';
+        captureArea.style.width = '';
+        
+        hiddenRows.forEach(row => row.classList.remove('capture-hide'));
+        hiddenInputs.forEach(input => {
+          input.value = input.dataset.originalValue || '0';
         });
 
-        const clonedNick = clonedDoc.getElementById('nickname-input');
-        if (clonedNick) {
-          const nickParent = clonedNick.parentNode;
-          const div = clonedDoc.createElement('div');
-          div.style.fontFamily = "'Cafe24SurroundAir', sans-serif";
-          div.style.color = '#fff';
-          div.style.fontSize = '16px';
-          div.style.fontWeight = 'bold';
-          div.style.padding = '8px 0';
-          div.innerText = originalNickVal.trim() || "세카이의 주민";
-          nickParent.replaceChild(div, clonedNick);
-        }
-      }
-    }).then(canvas => {
-      btnGroup.style.display = 'flex';
+        const link = document.createElement('a');
+        link.download = 'SEKAI_FORCE_Result.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      }).catch(err => {
+        console.error("캡처 중 오류 발생:", err);
+        btnGroup.style.display = 'flex';
 
-      inputContainer.style.gridTemplateColumns = '';
-      inputContainer.style.width = '';
-      leftPanel.style.flex = '';
-      contentWrapper.style.gap = '';
-      captureArea.style.width = '';
-      
-      hiddenRows.forEach(row => row.classList.remove('capture-hide'));
-      hiddenInputs.forEach(input => {
-        input.value = input.dataset.originalValue || '0';
+        inputContainer.style.gridTemplateColumns = '';
+        inputContainer.style.width = '';
+        leftPanel.style.flex = '';
+        rightPanel.style.width = '';
+        rightPanel.style.flex = '';
+        contentWrapper.style.gap = '';
+        captureArea.style.width = '';
+
+        hiddenRows.forEach(row => row.classList.remove('capture-hide'));
+        hiddenInputs.forEach(input => {
+          input.value = input.dataset.originalValue || '0';
+        });
+        alert('이미지 저장에 실패했습니다.');
       });
-
-      const link = document.createElement('a');
-      link.download = 'SEKAI_FORCE_Result.png';
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-    }).catch(err => {
-      console.error("캡처 중 오류 발생:", err);
-      btnGroup.style.display = 'flex';
-
-      inputContainer.style.gridTemplateColumns = '';
-      inputContainer.style.width = '';
-      leftPanel.style.flex = '';
-      contentWrapper.style.gap = '';
-      captureArea.style.width = '';
-
-      hiddenRows.forEach(row => row.classList.remove('capture-hide'));
-      hiddenInputs.forEach(input => {
-        input.value = input.dataset.originalValue || '0';
-      });
-      alert('이미지 저장에 실패했습니다.');
     });
   }
 
