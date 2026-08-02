@@ -274,6 +274,9 @@
     -webkit-text-fill-color: transparent;
     margin: 15px 0;
   }
+  .result-score .decimal {
+    font-size: 0.67em;
+  }
   .result-rank {
     font-size: 20px;
     color: #fff;
@@ -346,7 +349,7 @@
     top: 6px;
     left: 6px;
     font-size: 11px;
-    font-weight: bold;
+    font-family: 'Cafe24Surround', sans-serif;
     padding: 2px 6px;
     border-radius: 4px;
     cursor: pointer;
@@ -486,7 +489,7 @@
 <body>
 
 <div class="main-container">
-  <h1><span style="font-family: 'Cafe24Surround', sans-serif;">SEKAI FORCE Calculator (For Desktop)</span></h1>
+  <h1><span style="font-family: 'Cafe24Surround', sans-serif;">SEKAI FORCE Calculator</span></h1>
   
   <div class="content-wrapper">
     <div class="left-panel">
@@ -514,7 +517,7 @@
 
       <div class="result-box">
         <div class="result-title">최종 SEKAI FORCE</div>
-        <div class="result-score" id="final-score">0.0</div>
+        <div class="result-score" id="final-score">0<span class="decimal">.0</span></div>
         <div class="result-rank" id="final-rank">언랭크</div>
         <div class="next-rank" id="next-rank">다음 등급까지 남은 점수: 2000.0</div>
       </div>
@@ -830,29 +833,32 @@
 
     const infoBox = document.getElementById('info-box');
     
-    if (allAchievements.length > maxCount) {
-      const excluded = allAchievements.slice(maxCount);
-      let excludedMap = {};
+    // 점수 계산에 포함된 성과 내역 알림 출력
+    if (countedNumber > 0) {
+      const included = allAchievements.slice(0, countedNumber);
+      let includedMap = {};
       
-      excluded.forEach(ex => {
-        let key = `${ex.lvl}-${ex.type}`;
-        if (!excludedMap[key]) excludedMap[key] = { lvl: ex.lvl, type: ex.type, count: 0 };
-        excludedMap[key].count++;
+      included.forEach(inc => {
+        let key = `${inc.lvl}-${inc.type}`;
+        if (!includedMap[key]) includedMap[key] = { lvl: inc.lvl, type: inc.type, count: 0 };
+        includedMap[key].count++;
       });
       
       let msgTexts = [];
-      for (let key in excludedMap) {
-        let ex = excludedMap[key];
-        msgTexts.push(`${modePrefix}${ex.lvl}의 ${ex.type} 성과 ${ex.count}개`);
+      for (let key in includedMap) {
+        let inc = includedMap[key];
+        msgTexts.push(`${modePrefix}${inc.lvl} ${inc.type} ${inc.count}개`);
       }
       
-      infoBox.innerHTML = msgTexts.join(', ') + '가 점수 계산에서 제외되었습니다.';
+      infoBox.innerHTML = msgTexts.join(' + ') + ` = 총 ${countedNumber}개의 성과가 점수 계산에 포함되었습니다.`;
       infoBox.style.display = 'block';
     } else {
       infoBox.style.display = 'none';
     }
 
-    document.getElementById('final-score').innerText = finalScore.toFixed(1);
+    const [intPart, decPart] = finalScore.toFixed(1).split('.');
+    document.getElementById('final-score').innerHTML = `${intPart}<span class="decimal">.${decPart}</span>`;
+
     updateRank(finalScore);
     renderMajorAchievements(allAchievements);
   }
