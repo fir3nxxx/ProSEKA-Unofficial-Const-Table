@@ -634,8 +634,8 @@
     { name: "마스터 II", min: 9700 },
     { name: "마스터 III", min: 9800 },
     { name: "마스터 IV", min: 9900 },
-    { name: "챔피언", min: 10000 },
-    { name: "챔피언+", min: 10500 }
+    { name: "그랜드 마스터", min: 10000 },
+    { name: "챔피언", min: 10500 }
   ]; 
 
   const dataMAS = {};
@@ -722,7 +722,7 @@
       ? Object.keys(dataMAS).map(Number).sort((a, b) => b - a)
       : Object.keys(dataAPD).map(Number).sort((a, b) => b - a);
 
-    const multiplier = currentMode === 'apd' ? 1.42 : 1.0;
+    const multiplier = currentMode === 'apd' ? 1.5 : 1.0;
     const lvlPrefix = currentMode === 'apd' ? 'Lv.APD' : 'Lv.';
 
     levels.forEach(level => {
