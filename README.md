@@ -1,2 +1,1 @@
-Code by FIR3NA☆ (@fir3nxxx) 
-\n Inspired by Sekai Profile
+Code by FIR3NA☆ (@fir3nxxx) / Inspired by Sekai Profile
