@@ -518,7 +518,7 @@
       <div class="result-box">
         <div class="result-title">최종 SEKAI FORCE</div>
         <div class="result-score" id="final-score">0<span class="decimal">.0</span></div>
-        <div class="result-rank" id="final-rank">언랭크</div>
+        <div class="result-rank" id="final-rank">UNRANKED</div>
         <div class="next-rank" id="next-rank">다음 등급까지 남은 점수: 2000.0</div>
       </div>
 
@@ -606,36 +606,39 @@
   let activeModalKey = null;
 
   const ranks = [
-    { name: "비기너 I", min: 2000 },
-    { name: "비기너 II", min: 2500 },
-    { name: "비기너 III", min: 3000 },
-    { name: "비기너 IV", min: 3500 },
-    { name: "브론즈 I", min: 4000 },
-    { name: "브론즈 II", min: 4500 },
-    { name: "브론즈 III", min: 5000 },
-    { name: "브론즈 IV", min: 5500 },
-    { name: "실버 I", min: 6000 },
-    { name: "실버 II", min: 6250 },
-    { name: "실버 III", min: 6500 },
-    { name: "실버 IV", min: 6750 },
-    { name: "골드 I", min: 7000 },
-    { name: "골드 II", min: 7250 },
-    { name: "골드 III", min: 7500 },
-    { name: "골드 IV", min: 7750 },
-    { name: "플래티넘 I", min: 8000 },
-    { name: "플래티넘 II", min: 8250 },
-    { name: "플래티넘 III", min: 8500 },
-    { name: "플래티넘 IV", min: 8750 },
-    { name: "다이아몬드 I", min: 9000 },
-    { name: "다이아몬드 II", min: 9150 },
-    { name: "다이아몬드 III", min: 9300 },
-    { name: "다이아몬드 IV", min: 9450 },
-    { name: "마스터 I", min: 9600 },
-    { name: "마스터 II", min: 9700 },
-    { name: "마스터 III", min: 9800 },
-    { name: "마스터 IV", min: 9900 },
-    { name: "그랜드 마스터", min: 10000 },
-    { name: "챔피언", min: 10500 }
+    { name: "BEGINNER I", min: 2000 },
+    { name: "BEGINNER II", min: 2500 },
+    { name: "BEGINNER III", min: 3000 },
+    { name: "BEGINNER IV", min: 3500 },
+    { name: "BRONZE I", min: 4000 },
+    { name: "BRONZE II", min: 4500 },
+    { name: "BRONZE III", min: 5000 },
+    { name: "BRONZE IV", min: 5500 },
+    { name: "SILVER I", min: 6000 },
+    { name: "SILVER II", min: 6250 },
+    { name: "SILVER III", min: 6500 },
+    { name: "SILVER IV", min: 6750 },
+    { name: "GOLD I", min: 7000 },
+    { name: "GOLD II", min: 7250 },
+    { name: "GOLD III", min: 7500 },
+    { name: "GOLD IV", min: 7750 },
+    { name: "PLATINA I", min: 8000 },
+    { name: "PLATINA II", min: 8250 },
+    { name: "PLATINA III", min: 8500 },
+    { name: "PLATINA IV", min: 8750 },
+    { name: "DIAMOND I", min: 9000 },
+    { name: "DIAMOND II", min: 9150 },
+    { name: "DIAMOND III", min: 9300 },
+    { name: "DIAMOND IV", min: 9450 },
+    { name: "RUBY I", min: 9600 },
+    { name: "RUBY II", min: 9700 },
+    { name: "RUBY III", min: 9800 },
+    { name: "RUBY IV", min: 9900 },
+    { name: "PEARL I", min: 10000 },
+    { name: "PEARL II", min: 10250 }
+    { name: "PEARL III", min: 10500 }
+    { name: "PEARL IV", min: 10750 }
+    { name: "MASTER", min: 11000 }
   ]; 
 
   const dataMAS = {};
@@ -1027,7 +1030,7 @@
   }
 
   function updateRank(score) {
-    let currentRank = "언랭크";
+    let currentRank = "UNRANKED";
     let nextRankName = ranks[0].name;
     let scoreNeeded = ranks[0].min - score;
 
