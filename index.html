@@ -635,10 +635,10 @@
     { name: "RUBY III", min: 9800 },
     { name: "RUBY IV", min: 9900 },
     { name: "PEARL I", min: 10000 },
-    { name: "PEARL II", min: 10250 },
-    { name: "PEARL III", min: 10500 },
-    { name: "PEARL IV", min: 10750 },
-    { name: "MASTER", min: 11000 }
+    { name: "PEARL II", min: 10125 },
+    { name: "PEARL III", min: 10250 },
+    { name: "PEARL IV", min: 10375 },
+    { name: "MASTER", min: 10500 }
   ]; 
 
   const dataMAS = {};
@@ -725,7 +725,7 @@
       ? Object.keys(dataMAS).map(Number).sort((a, b) => b - a)
       : Object.keys(dataAPD).map(Number).sort((a, b) => b - a);
 
-    const multiplier = currentMode === 'apd' ? 1.5 : 1.0;
+    const multiplier = currentMode === 'apd' ? 1.4244060475 : 1.0;
     const lvlPrefix = currentMode === 'apd' ? 'Lv.APD' : 'Lv.';
 
     levels.forEach(level => {
@@ -793,7 +793,7 @@
     let allAchievements = [];
     const maxCount = currentMode === 'mas' ? 39 : 26;
     const data = currentMode === 'mas' ? dataMAS : dataAPD;
-    const multiplier = currentMode === 'apd' ? 1.5 : 1.0;
+    const multiplier = currentMode === 'apd' ? 1.4244060475 : 1.0;
     const modePrefix = currentMode === 'apd' ? 'Lv.APD' : 'Lv.';
 
     let apCounts = {};
