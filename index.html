@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SEKAI FORCE Calculator</title>
+<title>SEKAI RATING Calculator</title>
 <style>
   @font-face {
     font-family: 'Cafe24SurroundAir';
@@ -143,7 +143,7 @@
     font-size: 11px;
     margin-top: 2px;
   }
-  input[type="number"], input[type="text"] {
+  input[type="number"], input[type="text"], select {
     font-family: inherit; 
     background: #121212;
     border: 1px solid #555;
@@ -162,7 +162,14 @@
     font-size: 15px;
     box-sizing: border-box;
   }
-  input:focus {
+  select {
+    width: 100%;
+    padding: 8px;
+    font-size: 13px;
+    box-sizing: border-box;
+    cursor: pointer;
+  }
+  input:focus, select:focus {
     outline: none;
     border-color: #0bc;
   }
@@ -269,18 +276,16 @@
   .result-score {
     font-size: 44px;
     font-weight: bold;
-    background: linear-gradient(90deg, #3cb, #0bc);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     margin: 15px 0;
+    transition: color 0.3s ease;
   }
   .result-score .decimal {
     font-size: 0.67em;
   }
   .result-rank {
     font-size: 20px;
-    color: #fff;
     font-weight: bold;
+    transition: color 0.3s ease;
   }
   .next-rank {
     font-size: 13px;
@@ -294,17 +299,38 @@
     border-radius: 12px;
     border: 1px solid #333;
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    position: relative;
+  }
+  .major-achievements-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
   }
   .major-achievements-title {
     font-size: 14px;
     color: #aaa;
     font-weight: bold;
-    margin-bottom: 12px;
   }
+  .settings-btn {
+    background: transparent;
+    border: none;
+    color: #888;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: color 0.2s, background-color 0.2s;
+  }
+  .settings-btn:hover {
+    color: #0bc;
+    background-color: #252525;
+  }
+
   .jackets-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
     gap: 8px;
     width: 100%;
   }
@@ -489,7 +515,7 @@
 <body>
 
 <div class="main-container">
-  <h1><span style="font-family: 'Cafe24Surround', sans-serif;">SEKAI FORCE Calculator</span></h1>
+  <h1><span style="font-family: 'Cafe24Surround', sans-serif;">SEKAI RATING Calculator</span></h1>
   
   <div class="content-wrapper">
     <div class="left-panel">
@@ -510,20 +536,24 @@
           </div>
           <div class="nickname-input-group">
             <label for="nickname-input">닉네임</label>
-            <input type="text" id="nickname-input" placeholder="세카이의 주민">
+            <input type="text" id="nickname-input" placeholder="세카이의 주민" oninput="saveLocalStorage()">
           </div>
         </div>
       </div>
 
       <div class="result-box">
-        <div class="result-title">최종 SEKAI FORCE</div>
-        <div class="result-score" id="final-score">0<span class="decimal">.0</span></div>
+        <div class="result-title" id="result-title">최종 SEKAI RATING</div>
+        <div class="result-score" id="final-score">0<span class="decimal">.000</span></div>
         <div class="result-rank" id="final-rank">UNRANKED</div>
-        <div class="next-rank" id="next-rank">다음 등급까지 남은 점수: 2000.0</div>
+        <div class="next-rank" id="next-rank">다음 등급까지 남은 점수: 10.000</div>
       </div>
 
       <div class="major-achievements-box">
-        <div class="major-achievements-title">주요 성과</div>
+        <div class="major-achievements-header">
+          <div class="major-achievements-title">주요 성과</div>
+          <button class="settings-btn" onclick="openAchievementModal()" title="설정">⚙️</button>
+        </div>
+
         <div class="jackets-grid" id="jackets-grid">
           <!-- JS 동적 생성 -->
         </div>
@@ -552,12 +582,29 @@
   </div>
 </div>
 
+<div id="achievement-modal" class="modal-overlay" style="display: none;">
+  <div class="modal-content" style="width: 320px;">
+    <h3>주요 성과 표시 설정</h3>
+    <div style="margin-bottom: 15px;">
+      <label for="achievement-option-select" style="font-size: 13px; color: #aaa; display: block; margin-bottom: 8px;">표시 방식을 선택하세요</label>
+      <select id="achievement-option-select" onchange="changeAchievementOption(this.value)">
+        <option value="all_9">전체 성과 통합 9개</option>
+        <option value="ap6_fc3">AP 성과 6개 & FC 성과 3개</option>
+        <option value="ap3_fc6">AP 성과 3개 & FC 성과 6개</option>
+      </select>
+    </div>
+    <div class="modal-footer" style="justify-content: flex-end;">
+      <button class="btn btn-save" style="padding: 6px 12px; min-width: auto; font-size: 12px;" onclick="closeAchievementModal()">확인</button>
+    </div>
+  </div>
+</div>
+
 <div id="jacket-modal" class="modal-overlay" style="display: none;">
   <div class="modal-content" style="width: 320px;">
     <h3>자켓 이미지 ID 입력</h3>
-    <input type="text" id="modal-id-input" placeholder="ID 입력 (예: 2, 49, 187)" style="width: 100%; padding: 10px; box-sizing: border-box; margin-top: 5px;">
+    <input type="text" id="modal-id-input" placeholder="ID 입력 예: 2, 49, 187" style="width: 100%; padding: 10px; box-sizing: border-box; margin-top: 5px;">
     <div class="modal-footer">
-      <a href="https://rilakbest.com/song/list/all" target="_blank" class="modal-find-link">ID 찾기 (#)</a>
+      <a href="https://rilakbest.com/song/list/all" target="_blank" class="modal-find-link">ID 찾기 #</a>
       <div class="modal-buttons">
         <button class="btn btn-save" style="padding: 6px 12px; min-width: auto; font-size: 12px;" onclick="submitJacketId()">확인</button>
         <button class="btn btn-reset" style="padding: 6px 12px; min-width: auto; font-size: 12px;" onclick="deleteJacketId()">삭제</button>
@@ -568,7 +615,6 @@
 </div>
 
 <script>
-  // 프로필 사진 이미지 링크 목록 (26종)
   const profileImages = [
     "https://pjsekai.sega.jp/colorfullive/5th-frontier/assets/images/common/special/icon_ichika_mini.png", 
     "https://pjsekai.sega.jp/colorfullive/5th-frontier/assets/images/common/special/icon_saki_mini.png", 
@@ -600,57 +646,137 @@
 
   let selectedProfileIndex = null;
   let currentMode = 'mas';
+  let achievementOptions = {
+    mas: 'all_9',
+    apd: 'all_9'
+  };
 
   const jacketMap = {};
   const badgeColorState = {};
   let activeModalKey = null;
 
-  const ranks = [
-    { name: "BEGINNER I", min: 2000 },
-    { name: "BEGINNER II", min: 2500 },
-    { name: "BEGINNER III", min: 3000 },
-    { name: "BEGINNER IV", min: 3500 },
-    { name: "BRONZE I", min: 4000 },
-    { name: "BRONZE II", min: 4500 },
-    { name: "BRONZE III", min: 5000 },
-    { name: "BRONZE IV", min: 5500 },
-    { name: "SILVER I", min: 6000 },
-    { name: "SILVER II", min: 6250 },
-    { name: "SILVER III", min: 6500 },
-    { name: "SILVER IV", min: 6750 },
-    { name: "GOLD I", min: 7000 },
-    { name: "GOLD II", min: 7250 },
-    { name: "GOLD III", min: 7500 },
-    { name: "GOLD IV", min: 7750 },
-    { name: "PLATINA I", min: 8000 },
-    { name: "PLATINA II", min: 8250 },
-    { name: "PLATINA III", min: 8500 },
-    { name: "PLATINA IV", min: 8750 },
-    { name: "DIAMOND I", min: 9000 },
-    { name: "DIAMOND II", min: 9150 },
-    { name: "DIAMOND III", min: 9300 },
-    { name: "DIAMOND IV", min: 9450 },
-    { name: "RUBY I", min: 9600 },
-    { name: "RUBY II", min: 9700 },
-    { name: "RUBY III", min: 9800 },
-    { name: "RUBY IV", min: 9900 },
-    { name: "PEARL I", min: 10000 },
-    { name: "PEARL II", min: 10125 },
-    { name: "PEARL III", min: 10250 },
-    { name: "PEARL IV", min: 10375 },
-    { name: "MASTER", min: 10500 }
-  ]; 
+  const ranksMAS = [
+    { name: "BEGINNER I", min: 0.000, color: "#aaa" },
+    { name: "BEGINNER II", min: 2.500, color: "#aaa" },
+    { name: "BEGINNER III", min: 5.000, color: "#aaa" },
+    { name: "BEGINNER IV", min: 7.500, color: "#aaa" },
+    { name: "BRONZE I", min: 10.000, color: "#c73" },
+    { name: "BRONZE II", min: 10.500, color: "#c73" },
+    { name: "BRONZE III", min: 11.000, color: "#c73" },
+    { name: "BRONZE IV", min: 11.500, color: "#c73" },
+    { name: "SILVER I", min: 12.000, color: "#ddd" },
+    { name: "SILVER II", min: 12.500, color: "#ddd" },
+    { name: "SILVER III", min: 13.000, color: "#ddd" },
+    { name: "SILVER IV", min: 13.500, color: "#ddd" },
+    { name: "GOLD I", min: 14.000, color: "#fc5" },
+    { name: "GOLD II", min: 14.500, color: "#fc5" },
+    { name: "GOLD III", min: 15.000, color: "#fc5" },
+    { name: "GOLD IV", min: 15.500, color: "#fc5" },
+    { name: "PLATINA I", min: 16.000, color: "#bee" },
+    { name: "PLATINA II", min: 16.250, color: "#bee" },
+    { name: "PLATINA III", min: 16.500, color: "#bee" },
+    { name: "PLATINA IV", min: 16.750, color: "#bee" },
+    { name: "DIAMOND I", min: 17.000, color: "#8cf" },
+    { name: "DIAMOND II", min: 17.250, color: "#8cf" },
+    { name: "DIAMOND III", min: 17.500, color: "#8cf" },
+    { name: "DIAMOND IV", min: 17.750, color: "#8cf" },
+    { name: "RUBY I", min: 18.000, color: "#f6a" },
+    { name: "RUBY II", min: 18.250, color: "#f6a" },
+    { name: "RUBY III", min: 18.500, color: "#f6a" },
+    { name: "RUBY IV", min: 18.750, color: "#f6a" },
+    { name: "MASTER", min: 19.000, color: "#b5f" }
+  ];
+
+  const ranksAPD = [
+    { name: "BEGINNER I", min: 0.000, color: "#aaa" },
+    { name: "BEGINNER II", min: 2.750, color: "#aaa" },
+    { name: "BEGINNER III", min: 5.500, color: "#aaa" },
+    { name: "BEGINNER IV", min: 8.250, color: "#aaa" },
+    { name: "BRONZE I", min: 11.000, color: "#c73" },
+    { name: "BRONZE II", min: 11.500, color: "#c73" },
+    { name: "BRONZE III", min: 12.000, color: "#c73" },
+    { name: "BRONZE IV", min: 12.500, color: "#c73" },
+    { name: "SILVER I", min: 13.000, color: "#ddd" },
+    { name: "SILVER II", min: 13.500, color: "#ddd" },
+    { name: "SILVER III", min: 14.000, color: "#ddd" },
+    { name: "SILVER IV", min: 14.500, color: "#ddd" },
+    { name: "GOLD I", min: 15.000, color: "#fc5" },
+    { name: "GOLD II", min: 15.500, color: "#fc5" },
+    { name: "GOLD III", min: 16.000, color: "#fc5" },
+    { name: "GOLD IV", min: 16.500, color: "#fc5" },
+    { name: "PLATINA I", min: 17.000, color: "#bee" },
+    { name: "PLATINA II", min: 17.250, color: "#bee" },
+    { name: "PLATINA III", min: 17.500, color: "#bee" },
+    { name: "PLATINA IV", min: 17.750, color: "#bee" },
+    { name: "DIAMOND I", min: 18.000, color: "#8cf" },
+    { name: "DIAMOND II", min: 18.250, color: "#8cf" },
+    { name: "DIAMOND III", min: 18.500, color: "#8cf" },
+    { name: "DIAMOND IV", min: 18.750, color: "#8cf" },
+    { name: "RUBY I", min: 19.000, color: "#f6a" },
+    { name: "RUBY II", min: 19.250, color: "#f6a" },
+    { name: "RUBY III", min: 19.500, color: "#f6a" },
+    { name: "RUBY IV", min: 19.750, color: "#f6a" },
+    { name: "MASTER", min: 20.000, color: "#b5f" }
+  ];
 
   const dataMAS = {};
   const dataAPD = {};
 
+  function trunc3(val) {
+    return Math.floor((val + 1e-9) * 1000) / 1000;
+  }
+
+  function format3(val) {
+    return trunc3(val).toFixed(3);
+  }
+
   function init() {
-    for (let i = 17; i <= 37; i++) dataMAS[i] = { fc: 0, ap: 0 };
+    for (let i = 21; i <= 37; i++) dataMAS[i] = { fc: 0, ap: 0 };
     for (let i = 24; i <= 38; i++) dataAPD[i] = { fc: 0, ap: 0 };
 
+    loadLocalStorage();
     renderInputs();
     renderProfileGrid();
     calculate();
+  }
+
+  function saveLocalStorage() {
+    const saveData = {
+      mas: dataMAS,
+      apd: dataAPD,
+      nickname: document.getElementById('nickname-input').value,
+      selectedProfileIndex: selectedProfileIndex,
+      jacketMap: jacketMap,
+      badgeColorState: badgeColorState,
+      achievementOptions: achievementOptions
+    };
+    localStorage.setItem('sekai_rating_data', JSON.stringify(saveData));
+  }
+
+  function loadLocalStorage() {
+    const raw = localStorage.getItem('sekai_rating_data');
+    if (!raw) return;
+    try {
+      const parsed = JSON.parse(raw);
+      if (parsed.mas) Object.assign(dataMAS, parsed.mas);
+      if (parsed.apd) Object.assign(dataAPD, parsed.apd);
+      if (parsed.nickname !== undefined) document.getElementById('nickname-input').value = parsed.nickname;
+      if (parsed.selectedProfileIndex !== undefined) {
+        selectedProfileIndex = parsed.selectedProfileIndex;
+        applyProfile();
+      }
+      if (parsed.jacketMap) Object.assign(jacketMap, parsed.jacketMap);
+      if (parsed.badgeColorState) Object.assign(badgeColorState, parsed.badgeColorState);
+      if (parsed.achievementOptions) {
+        Object.assign(achievementOptions, parsed.achievementOptions);
+      } else if (parsed.achievementOption) {
+        achievementOptions.mas = parsed.achievementOption;
+        achievementOptions.apd = parsed.achievementOption;
+      }
+      document.getElementById('achievement-option-select').value = achievementOptions[currentMode];
+    } catch (e) {
+      console.error('LocalStorage load failed', e);
+    }
   }
 
   function renderProfileGrid() {
@@ -685,6 +811,7 @@
     selectedProfileIndex = index;
     applyProfile();
     closeProfileModal();
+    saveLocalStorage();
   }
 
   function applyProfile() {
@@ -707,6 +834,8 @@
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     event.target.classList.add('active');
 
+    document.getElementById('achievement-option-select').value = achievementOptions[currentMode];
+
     renderInputs();
     calculate();
   }
@@ -725,13 +854,12 @@
       ? Object.keys(dataMAS).map(Number).sort((a, b) => b - a)
       : Object.keys(dataAPD).map(Number).sort((a, b) => b - a);
 
-    const multiplier = currentMode === 'apd' ? 1.4244060475 : 1.0;
     const lvlPrefix = currentMode === 'apd' ? 'Lv.APD' : 'Lv.';
 
     levels.forEach(level => {
       const data = currentMode === 'mas' ? dataMAS[level] : dataAPD[level];
-      const fcPts = (level * 7.5 * multiplier).toFixed(1);
-      const apPts = (level * 8.0 * multiplier).toFixed(1);
+      const fcPts = format3((level / 2) + 1.226);
+      const apPts = format3((level / 2) + 2.150);
       const glowClass = getGlowClass(data);
       
       let badgeBg = '';
@@ -739,11 +867,8 @@
       if (currentMode === 'mas') {
         if (level >= 27 && level <= 37) {
           badgeBg = '#c3f';
-        } else if (level >= 22 && level <= 26) {
+        } else if (level >= 21 && level <= 26) {
           badgeBg = '#f47';
-        } else if (level >= 17 && level <= 21) {
-          badgeBg = '#fc0';
-          badgeColor = '#121212';
         }
       } else {
         badgeBg = '#f7c';
@@ -787,13 +912,18 @@
     }
 
     calculate();
+    saveLocalStorage();
   }
 
   function calculate() {
+    const titleEl = document.getElementById('result-title');
+    if (titleEl) {
+      titleEl.innerText = currentMode === 'apd' ? '최종 SEKAI RATING (A)' : '최종 SEKAI RATING';
+    }
+
     let allAchievements = [];
-    const maxCount = currentMode === 'mas' ? 39 : 26;
+    const divisor = currentMode === 'mas' ? 39 : 26;
     const data = currentMode === 'mas' ? dataMAS : dataAPD;
-    const multiplier = currentMode === 'apd' ? 1.4244060475 : 1.0;
     const modePrefix = currentMode === 'apd' ? 'Lv.APD' : 'Lv.';
 
     let apCounts = {};
@@ -807,7 +937,7 @@
         allAchievements.push({
           lvl: lvl,
           type: 'AP',
-          score: lvl * 8.0 * multiplier,
+          score: trunc3((lvl / 2) + 2.150),
           key: `${currentMode}_${lvl}_AP_${dupIdx}`
         });
       }
@@ -817,7 +947,7 @@
         allAchievements.push({
           lvl: lvl,
           type: 'FC',
-          score: lvl * 7.5 * multiplier,
+          score: trunc3((lvl / 2) + 1.226),
           key: `${currentMode}_${lvl}_FC_${dupIdx}`
         });
       }
@@ -828,15 +958,16 @@
       return b.lvl - a.lvl; 
     });
 
-    let finalScore = 0;
-    const countedNumber = Math.min(allAchievements.length, maxCount);
-    for(let i = 0; i < countedNumber; i++){
-      finalScore += allAchievements[i].score;
+    let totalSum = 0;
+    const countedNumber = Math.min(allAchievements.length, divisor);
+    for (let i = 0; i < countedNumber; i++) {
+      totalSum += allAchievements[i].score;
     }
+
+    const finalScore = trunc3(totalSum / divisor);
 
     const infoBox = document.getElementById('info-box');
     
-    // 점수 계산에 포함된 성과 내역 알림 출력
     if (countedNumber > 0) {
       const included = allAchievements.slice(0, countedNumber);
       let includedMap = {};
@@ -853,72 +984,105 @@
         msgTexts.push(`${modePrefix}${inc.lvl} ${inc.type} ${inc.count}개`);
       }
       
-      infoBox.innerHTML = msgTexts.join(' + ') + ` = 총 ${countedNumber}개의 성과가 점수 계산에 포함되었습니다.`;
+      infoBox.innerHTML = msgTexts.join(' + ') + ` = 총 ${countedNumber}곡 레이팅 계산 반영 완료`;
       infoBox.style.display = 'block';
     } else {
       infoBox.style.display = 'none';
     }
 
-    const [intPart, decPart] = finalScore.toFixed(1).split('.');
-    document.getElementById('final-score').innerHTML = `${intPart}<span class="decimal">.${decPart}</span>`;
+    const formattedStr = format3(finalScore);
+    const parts = formattedStr.split('.');
+    document.getElementById('final-score').innerHTML = `${parts[0]}<span class="decimal">.${parts[1]}</span>`;
 
     updateRank(finalScore);
     renderMajorAchievements(allAchievements);
   }
 
-  function getDefaultBadgeColor(level, mode) {
-    if (mode === 'apd') return '#f7c';
-    if (level >= 33) return '#c3f';
-    if (level >= 27 && level <= 32) return '#c3f';
-    if (level === 26) return '#f47';
-    if (level === 25) return '#f47';
-    if (level >= 22 && level <= 24) return '#f47';
-    if (level === 21) return '#fc0';
-    if (level >= 17 && level <= 20) return '#fc0';
-    return '#c3f';
+  function updateRank(score) {
+    const rankList = currentMode === 'mas' ? ranksMAS : ranksAPD;
+    let currentRankObj = rankList[0];
+    let nextRankName = rankList[0].name;
+    let scoreNeeded = trunc3(rankList[0].min - score);
+
+    for (let i = 0; i < rankList.length; i++) {
+      if (score >= rankList[i].min) {
+        currentRankObj = rankList[i];
+        if (i < rankList.length - 1) {
+          nextRankName = rankList[i+1].name;
+          scoreNeeded = trunc3(rankList[i+1].min - score);
+        } else {
+          nextRankName = "최고 등급 달성";
+          scoreNeeded = 0;
+        }
+      }
+    }
+
+    const rankEl = document.getElementById('final-rank');
+    const scoreEl = document.getElementById('final-score');
+    
+    rankEl.innerText = currentRankObj.name;
+    rankEl.style.color = currentRankObj.color;
+    scoreEl.style.color = currentRankObj.color;
+
+    if (nextRankName === "최고 등급 달성") {
+      document.getElementById('next-rank').innerText = "최고 등급에 도달했습니다!";
+    } else {
+      document.getElementById('next-rank').innerText = `${nextRankName}까지 ${format3(scoreNeeded)} 남음`;
+    }
   }
 
-  function cycleBadgeColor(level, mode, currentColor) {
-    if (mode === 'apd' || level >= 33 || (level >= 17 && level <= 20)) {
-      return currentColor;
-    }
-    if (level >= 26 && level <= 32) {
-      return currentColor === '#c3f' ? '#f47' : '#c3f';
-    }
-    if (level === 25) {
-      if (currentColor === '#f47') return '#c3f';
-      if (currentColor === '#c3f') return '#fc0';
-      return '#f47';
-    }
-    if (level >= 21 && level <= 24) {
-      return currentColor === '#f47' ? '#fc0' : '#f47';
-    }
-    return currentColor;
+  function getDefaultBadgeColor(level, mode) {
+    if (mode === 'apd') return '#f7c';
+    if (level >= 27) return '#c3f';
+    return '#f47';
+  }
+
+  function openAchievementModal() {
+    document.getElementById('achievement-option-select').value = achievementOptions[currentMode];
+    document.getElementById('achievement-modal').style.display = 'flex';
+  }
+
+  function closeAchievementModal() {
+    document.getElementById('achievement-modal').style.display = 'none';
+  }
+
+  function changeAchievementOption(val) {
+    achievementOptions[currentMode] = val;
+    saveLocalStorage();
+    calculate();
   }
 
   function renderMajorAchievements(allAchievements) {
     const grid = document.getElementById('jackets-grid');
     grid.innerHTML = '';
 
-    const apList = allAchievements.filter(a => a.type === 'AP');
-    const fcList = allAchievements.filter(a => a.type === 'FC');
+    const slots = new Array(9).fill(null);
+    const currentOption = achievementOptions[currentMode];
 
-    const slots = [null, null, null, null, null, null];
+    if (currentOption === 'all_9') {
+      const top9 = allAchievements.slice(0, 9);
+      top9.forEach((item, i) => {
+        slots[i] = { ...item, rankLabel: `#${i + 1}` };
+      });
+    } else if (currentOption === 'ap3_fc6') {
+      const apList = allAchievements.filter(a => a.type === 'AP');
+      const fcList = allAchievements.filter(a => a.type === 'FC');
 
-    if (apList.length > 0 && fcList.length > 0) {
       for (let i = 0; i < Math.min(3, apList.length); i++) {
-        slots[i] = { ...apList[i], rankLabel: `AP #${i + 1}` };
+        slots[i] = { ...apList[i], rankLabel: `#P${i + 1}` };
+      }
+      for (let i = 0; i < Math.min(6, fcList.length); i++) {
+        slots[i + 3] = { ...fcList[i], rankLabel: `#F${i + 1}` };
+      }
+    } else {
+      const apList = allAchievements.filter(a => a.type === 'AP');
+      const fcList = allAchievements.filter(a => a.type === 'FC');
+
+      for (let i = 0; i < Math.min(6, apList.length); i++) {
+        slots[i] = { ...apList[i], rankLabel: `#P${i + 1}` };
       }
       for (let i = 0; i < Math.min(3, fcList.length); i++) {
-        slots[i + 3] = { ...fcList[i], rankLabel: `FC #${i + 1}` };
-      }
-    } else if (apList.length > 0) {
-      for (let i = 0; i < Math.min(6, apList.length); i++) {
-        slots[i] = { ...apList[i], rankLabel: `AP #${i + 1}` };
-      }
-    } else if (fcList.length > 0) {
-      for (let i = 0; i < Math.min(6, fcList.length); i++) {
-        slots[i] = { ...fcList[i], rankLabel: `FC #${i + 1}` };
+        slots[i + 6] = { ...fcList[i], rankLabel: `#F${i + 1}` };
       }
     }
 
@@ -955,22 +1119,12 @@
 
         let defaultColor = getDefaultBadgeColor(item.lvl, currentMode);
         let currentColor = badgeColorState[item.key] || defaultColor;
-        let textColor = (currentColor === '#fc0') ? '#121212' : '#ffffff';
 
         const badgeDiv = document.createElement('div');
         badgeDiv.className = 'card-level-badge';
         badgeDiv.style.backgroundColor = currentColor;
-        badgeDiv.style.color = textColor;
+        badgeDiv.style.color = '#ffffff';
         badgeDiv.innerText = currentMode === 'apd' ? `APD${item.lvl}` : item.lvl;
-
-        badgeDiv.onclick = (e) => {
-          e.stopPropagation();
-          let cur = badgeColorState[item.key] || defaultColor;
-          const nextColor = cycleBadgeColor(item.lvl, currentMode, cur);
-          badgeColorState[item.key] = nextColor;
-          badgeDiv.style.backgroundColor = nextColor;
-          badgeDiv.style.color = (nextColor === '#fc0') ? '#121212' : '#ffffff';
-        };
 
         const rankDiv = document.createElement('div');
         rankDiv.className = 'card-rank-text';
@@ -978,7 +1132,7 @@
 
         const scoreDiv = document.createElement('div');
         scoreDiv.className = 'card-score-text';
-        scoreDiv.innerText = item.score.toFixed(1);
+        scoreDiv.innerText = format3(item.score);
         scoreDiv.style.color = (item.type === 'AP') ? '#81fafa' : '#ff80ab';
 
         cardDiv.appendChild(badgeDiv);
@@ -1019,6 +1173,7 @@
       delete jacketMap[activeModalKey];
     }
     closeJacketModal();
+    saveLocalStorage();
     calculate();
   }
 
@@ -1026,33 +1181,8 @@
     if (!activeModalKey) return;
     delete jacketMap[activeModalKey];
     closeJacketModal();
+    saveLocalStorage();
     calculate();
-  }
-
-  function updateRank(score) {
-    let currentRank = "UNRANKED";
-    let nextRankName = ranks[0].name;
-    let scoreNeeded = ranks[0].min - score;
-
-    for (let i = 0; i < ranks.length; i++) {
-      if (score >= ranks[i].min) {
-        currentRank = ranks[i].name;
-        if (i < ranks.length - 1) {
-          nextRankName = ranks[i+1].name;
-          scoreNeeded = ranks[i+1].min - score;
-        } else {
-          nextRankName = "최고 등급 달성";
-          scoreNeeded = 0;
-        }
-      }
-    }
-
-    document.getElementById('final-rank').innerText = currentRank;
-    if (nextRankName === "최고 등급 달성") {
-      document.getElementById('next-rank').innerText = "최고 등급에 도달했습니다!";
-    } else {
-      document.getElementById('next-rank').innerText = `${nextRankName}까지 남은 점수: ${scoreNeeded.toFixed(1)}점`;
-    }
   }
 
   function saveData() {
@@ -1062,13 +1192,22 @@
       nickname: document.getElementById('nickname-input').value,
       selectedProfileIndex: selectedProfileIndex,
       jacketMap: jacketMap,
-      badgeColorState: badgeColorState
+      badgeColorState: badgeColorState,
+      achievementOptions: achievementOptions
     };
+
+    const rawNickname = document.getElementById('nickname-input').value.trim();
+    let fileName = 'sekai_rating_data';
+    if (rawNickname !== '') {
+      const sanitizedNickname = rawNickname.replace(/\s+/g, '_');
+      fileName += `_${sanitizedNickname}`;
+    }
+
     const blob = new Blob([JSON.stringify(saveData, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'sekai_force_data.json';
+    link.download = `${fileName}.json`;
     link.click();
     URL.revokeObjectURL(url);
   }
@@ -1095,9 +1234,18 @@
 
           if (rawData.jacketMap) Object.assign(jacketMap, rawData.jacketMap);
           if (rawData.badgeColorState) Object.assign(badgeColorState, rawData.badgeColorState);
+          if (rawData.achievementOptions) {
+            Object.assign(achievementOptions, rawData.achievementOptions);
+          } else if (rawData.achievementOption) {
+            achievementOptions.mas = rawData.achievementOption;
+            achievementOptions.apd = rawData.achievementOption;
+          }
+
+          document.getElementById('achievement-option-select').value = achievementOptions[currentMode];
 
           renderInputs();
           calculate();
+          saveLocalStorage();
           alert('기록을 성공적으로 불러왔습니다.');
         } catch (err) {
           alert('JSON 파일을 읽는 중 오류가 발생했습니다.');
@@ -1110,7 +1258,7 @@
 
   function resetData() {
     if (!confirm("모든 입력 내역을 초기화하시겠습니까?")) return;
-    for (let i = 17; i <= 37; i++) dataMAS[i] = { fc: 0, ap: 0 };
+    for (let i = 21; i <= 37; i++) dataMAS[i] = { fc: 0, ap: 0 };
     for (let i = 24; i <= 38; i++) dataAPD[i] = { fc: 0, ap: 0 };
     for (let key in jacketMap) delete jacketMap[key];
     for (let key in badgeColorState) delete badgeColorState[key];
@@ -1119,6 +1267,10 @@
     applyProfile();
 
     document.getElementById('nickname-input').value = '';
+    achievementOptions = { mas: 'all_9', apd: 'all_9' };
+    document.getElementById('achievement-option-select').value = 'all_9';
+
+    localStorage.removeItem('sekai_rating_data');
     renderInputs();
     calculate();
   }
