@@ -262,12 +262,41 @@
   }
 
   .result-box {
+    position: relative;
     padding: 25px 20px;
     background: #1e1e1e;
     border-radius: 12px;
     text-align: center;
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     border: 1px solid #333;
+  }
+  
+  .info-icon-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1px solid #888;
+    background: transparent;
+    color: #888;
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    font-weight: bold;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    transition: all 0.2s ease;
+  }
+  .info-icon-btn:hover {
+    color: #0bc;
+    border-color: #0bc;
+    background-color: rgba(0, 187, 204, 0.15);
   }
   .result-title {
     font-size: 16px;
@@ -465,6 +494,71 @@
     gap: 6px;
   }
 
+  .rating-info-modal-content {
+    width: 760px;
+    max-width: 92vw;
+    max-height: 85vh;
+    overflow-y: auto;
+    background: #181818;
+    color: #ddd;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .info-section-title {
+    font-size: 15px;
+    font-weight: bold;
+    color: #0bc;
+    margin-top: 20px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 4px;
+  }
+  .info-section-title:first-child {
+    margin-top: 0;
+  }
+  .info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    text-align: center;
+    font-size: 12px;
+    background: #1e1e1e;
+  }
+  .info-table th, .info-table td {
+    border: 1px solid #333;
+    padding: 6px 8px;
+  }
+  .info-table th {
+    background: #252525;
+    color: #0bc;
+    font-weight: bold;
+  }
+  .info-table tr.grade-i td[id*="rank-val"] {
+    font-weight: bold;
+  }
+  .target-rank-container {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+  }
+  .target-rank-table {
+    flex: 1;
+  }
+
+  .rank-cell-glow {
+    background-color: rgba(0, 187, 204, 0.22) !important;
+    animation: rankGlowPulse 1.5s infinite alternate;
+  }
+
+  @keyframes rankGlowPulse {
+    0% {
+      background-color: rgba(0, 187, 204, 0.15);
+    }
+    100% {
+      background-color: rgba(0, 187, 204, 0.32);
+    }
+  }
+
   .info-box {
     display: none;
     background: rgba(255, 235, 59, 0.1);
@@ -509,6 +603,7 @@
   }
   @media (max-width: 700px) {
     .horizontal-grid { grid-template-columns: 1fr; }
+    .target-rank-container { flex-direction: column; }
   }
 </style>
 </head>
@@ -524,7 +619,6 @@
         <div class="tab" onclick="switchTab('apd', event)">APPEND (26곡)</div>
       </div>
       <div id="input-container" class="horizontal-grid">
-        <!-- JS 동적 생성 -->
       </div>
     </div>
 
@@ -542,6 +636,7 @@
       </div>
 
       <div class="result-box">
+        <button class="info-icon-btn" onclick="openRatingInfoModal()" title="안내사항">i</button>
         <div class="result-title" id="result-title">최종 SEKAI RATING</div>
         <div class="result-score" id="final-score">0<span class="decimal">.000</span></div>
         <div class="result-rank" id="final-rank">UNRANKED</div>
@@ -555,7 +650,6 @@
         </div>
 
         <div class="jackets-grid" id="jackets-grid">
-          <!-- JS 동적 생성 -->
         </div>
       </div>
 
@@ -574,7 +668,6 @@
   <div class="modal-content">
     <h3>프로필 아이콘 선택<br>(Art by 上倉エク from セカライ5th)</h3>
     <div class="profile-grid" id="profile-grid">
-      <!-- JS 동적 생성 -->
     </div>
     <div class="modal-footer" style="justify-content: flex-end; margin-top: 15px;">
       <button class="btn btn-load" style="padding: 6px 12px; min-width: auto; font-size: 12px;" onclick="closeProfileModal()">취소</button>
@@ -614,6 +707,293 @@
   </div>
 </div>
 
+<div id="rating-info-modal" class="modal-overlay" style="display: none;">
+  <div class="modal-content rating-info-modal-content">
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0bc; padding-bottom: 8px; margin-bottom: 15px;">
+      <h3 style="margin: 0; font-size: 18px; color: #0bc;">SEKAI RATING 안내사항</h3>
+      <button class="settings-btn" style="font-size: 18px; padding: 0 4px;" onclick="closeRatingInfoModal()" title="닫기">✕</button>
+    </div>
+
+    <div class="info-section-title">최종 SEKAI RATING 계산식</div>
+    <div style="background: #222; padding: 10px 12px; border-radius: 6px; border: 1px solid #333; margin-bottom: 12px;">
+      <p style="margin: 0 0 6px 0;">악곡 레이팅 = <strong>악곡 레벨 + 성과별 레이팅 가산</strong></p>
+      <p style="margin: 0 0 4px 0; color: #aaa;">• MASTER 이하 : <strong>MASTER 이하 악곡 레이팅 상위 39곡의 평균값</strong></p>
+      <p style="margin: 0; color: #aaa;">• APPEND : <strong>APPEND 악곡 레이팅 상위 26곡의 평균값</strong></p>
+    </div>
+
+    <table class="info-table">
+      <thead>
+        <tr>
+          <th>프로세카 성과</th>
+          <th colspan="2">CHUNITHM 스코어 변환</th>
+          <th>레이팅 가산</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="color: #81fafa; font-weight: bold;">ALL PERFECT!</td>
+          <td>1,010,000</td>
+          <td>SSS+</td>
+          <td style="color: #81fafa; font-weight: bold;">+2.150</td>
+        </tr>
+        <tr>
+          <td style="color: #ff80ab; font-weight: bold;">FULL COMBO!</td>
+          <td>993,166</td>
+          <td>S+</td>
+          <td style="color: #ff80ab; font-weight: bold;">+0.726</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="background: #222; padding: 10px 12px; border-radius: 6px; border: 1px solid #333; font-size: 12px; color: #ccc;">
+      <strong style="color: #0bc;">FC 스코어 및 레이팅 가산 변환 과정</strong>
+      <ol style="margin: 6px 0 0 0; padding-left: 20px;">
+        <li>노트 수가 1000개인 악곡에서 50개의 GREAT 판정으로 FC를 한 것으로 가정</li>
+        <li>프로세카 랭크 매치 & 대회 스코어 체계로 백분율 변환 시 98.3333...%</li>
+        <li>CHUNITHM 이론치인 1,010,000점을 기준으로 변환 시 993,166점</li>
+        <li>레이팅 가산 변환 시 0.72이나 소수점 셋째자리까지 포함한 0.726을 가산함</li>
+      </ol>
+    </div>
+
+    <div class="info-section-title">랭크별 타겟 레이팅 기준표</div>
+    <div class="target-rank-container">
+      <table class="info-table target-rank-table">
+        <thead>
+          <tr>
+            <th colspan="2">랭크</th>
+            <th>MASTER 이하</th>
+            <th>APPEND</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td rowspan="4" id="rank-name-AMETHYST" style="color: #85e; font-weight: bold; background: #222;">AMETHYST</td>
+            <td id="rank-sub-AMETHYST-IV">IV</td>
+            <td id="rank-val-AMETHYST-IV-mas">-</td>
+            <td id="rank-val-AMETHYST-IV-apd">37.750</td>
+          </tr>
+          <tr>
+            <td id="rank-sub-AMETHYST-III">III</td>
+            <td id="rank-val-AMETHYST-III-mas">-</td>
+            <td id="rank-val-AMETHYST-III-apd">37.500</td>
+          </tr>
+          <tr>
+            <td id="rank-sub-AMETHYST-II">II</td>
+            <td id="rank-val-AMETHYST-II-mas">-</td>
+            <td id="rank-val-AMETHYST-II-apd">37.250</td>
+          </tr>
+          <tr class="grade-i">
+            <td id="rank-sub-AMETHYST-I">I</td>
+            <td id="rank-val-AMETHYST-I-mas">36.000</td>
+            <td id="rank-val-AMETHYST-I-apd">37.000</td>
+          </tr>
+          <tr>
+            <td rowspan="4" id="rank-name-EMERALD" style="color: #2c8; font-weight: bold; background: #222;">EMERALD</td>
+            <td id="rank-sub-EMERALD-IV">IV</td>
+            <td id="rank-val-EMERALD-IV-mas">35.750</td>
+            <td id="rank-val-EMERALD-IV-apd">36.750</td>
+          </tr>
+          <tr>
+            <td id="rank-sub-EMERALD-III">III</td>
+            <td id="rank-val-EMERALD-III-mas">35.500</td>
+            <td id="rank-val-EMERALD-III-apd">36.500</td>
+          </tr>
+          <tr>
+            <td id="rank-sub-EMERALD-II">II</td>
+            <td id="rank-val-EMERALD-II-mas">35.250</td>
+            <td id="rank-val-EMERALD-II-apd">36.250</td>
+          </tr>
+          <tr class="grade-i">
+            <td id="rank-sub-EMERALD-I">I</td>
+            <td id="rank-val-EMERALD-I-mas">35.000</td>
+            <td id="rank-val-EMERALD-I-apd">36.000</td>
+          </tr>
+          <tr>
+            <td rowspan="4" id="rank-name-SAPPHIRE" style="color: #67f; font-weight: bold; background: #222;">SAPPHIRE</td>
+            <td id="rank-sub-SAPPHIRE-IV">IV</td>
+            <td id="rank-val-SAPPHIRE-IV-mas">34.750</td>
+            <td id="rank-val-SAPPHIRE-IV-apd">35.750</td>
+          </tr>
+          <tr>
+            <td id="rank-sub-SAPPHIRE-III">III</td>
+            <td id="rank-val-SAPPHIRE-III-mas">34.500</td>
+            <td id="rank-val-SAPPHIRE-III-apd">35.500</td>
+          </tr>
+          <tr>
+            <td id="rank-sub-SAPPHIRE-II">II</td>
+            <td id="rank-val-SAPPHIRE-II-mas">34.250</td>
+            <td id="rank-val-SAPPHIRE-II-apd">35.250</td>
+          </tr>
+          <tr class="grade-i">
+            <td id="rank-sub-SAPPHIRE-I">I</td>
+            <td id="rank-val-SAPPHIRE-I-mas">34.000</td>
+            <td id="rank-val-SAPPHIRE-I-apd">35.000</td>
+          </tr>
+          <tr>
+            <td rowspan="4" id="rank-name-RUBY" style="color: #e26; font-weight: bold; background: #222;">RUBY</td>
+            <td id="rank-sub-RUBY-IV">IV</td>
+            <td id="rank-val-RUBY-IV-mas">33.750</td>
+            <td id="rank-val-RUBY-IV-apd">34.750</td>
+          </tr>
+          <tr>
+            <td id="rank-sub-RUBY-III">III</td>
+            <td id="rank-val-RUBY-III-mas">33.500</td>
+            <td id="rank-val-RUBY-III-apd">34.500</td>
+          </tr>
+          <tr>
+            <td id="rank-sub-RUBY-II">II</td>
+            <td id="rank-val-RUBY-II-mas">33.250</td>
+            <td id="rank-val-RUBY-II-apd">34.250</td>
+          </tr>
+          <tr class="grade-i">
+            <td id="rank-sub-RUBY-I">I</td>
+            <td id="rank-val-RUBY-I-mas">33.000</td>
+            <td id="rank-val-RUBY-I-apd">34.000</td>
+          </tr>
+          <tr>
+            <td rowspan="4" id="rank-name-DIAMOND" style="color: #6dd; font-weight: bold; background: #222;">DIAMOND</td>
+            <td id="rank-sub-DIAMOND-IV">IV</td>
+            <td id="rank-val-DIAMOND-IV-mas">32.750</td>
+            <td id="rank-val-DIAMOND-IV-apd">33.750</td>
+          </tr>
+          <tr>
+            <td id="rank-sub-DIAMOND-III">III</td>
+            <td id="rank-val-DIAMOND-III-mas">32.500</td>
+            <td id="rank-val-DIAMOND-III-apd">33.500</td>
+          </tr>
+          <tr>
+            <td id="rank-sub-DIAMOND-II">II</td>
+            <td id="rank-val-DIAMOND-II-mas">32.250</td>
+            <td id="rank-val-DIAMOND-II-apd">33.250</td>
+          </tr>
+          <tr class="grade-i">
+            <td id="rank-sub-DIAMOND-I">I</td>
+            <td id="rank-val-DIAMOND-I-mas">32.000</td>
+            <td id="rank-val-DIAMOND-I-apd">33.000</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table class="info-table target-rank-table">
+        <thead>
+          <tr>
+            <th colspan="2">랭크</th>
+            <th>MASTER 이하</th>
+            <th>APPEND</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td rowspan="4" id="rank-name-PLATINA" style="color: #bee; font-weight: bold; background: #222;">PLATINA</td>
+            <td id="rank-sub-PLATINA-IV">IV</td>
+            <td id="rank-val-PLATINA-IV-mas">31.500</td>
+            <td id="rank-val-PLATINA-IV-apd">32.500</td>
+          </tr>
+          <tr>
+            <td id="rank-sub-PLATINA-III">III</td>
+            <td id="rank-val-PLATINA-III-mas">31.000</td>
+            <td id="rank-val-PLATINA-III-apd">32.000</td>
+          </tr>
+          <tr>
+            <td id="rank-sub-PLATINA-II">II</td>
+            <td id="rank-val-PLATINA-II-mas">30.500</td>
+            <td id="rank-val-PLATINA-II-apd">31.500</td>
+          </tr>
+          <tr class="grade-i">
+            <td id="rank-sub-PLATINA-I">I</td>
+            <td id="rank-val-PLATINA-I-mas">30.000</td>
+            <td id="rank-val-PLATINA-I-apd">31.000</td>
+          </tr>
+          <tr>
+            <td rowspan="4" id="rank-name-GOLD" style="color: #fc5; font-weight: bold; background: #222;">GOLD</td>
+            <td id="rank-sub-GOLD-IV">IV</td>
+            <td id="rank-val-GOLD-IV-mas">29.500</td>
+            <td id="rank-val-GOLD-IV-apd">30.500</td>
+          </tr>
+          <tr>
+            <td id="rank-sub-GOLD-III">III</td>
+            <td id="rank-val-GOLD-III-mas">29.000</td>
+            <td id="rank-val-GOLD-III-apd">30.000</td>
+          </tr>
+          <tr>
+            <td id="rank-sub-GOLD-II">II</td>
+            <td id="rank-val-GOLD-II-mas">28.500</td>
+            <td id="rank-val-GOLD-II-apd">29.500</td>
+          </tr>
+          <tr class="grade-i">
+            <td id="rank-sub-GOLD-I">I</td>
+            <td id="rank-val-GOLD-I-mas">28.000</td>
+            <td id="rank-val-GOLD-I-apd">29.000</td>
+          </tr>
+          <tr>
+            <td rowspan="4" id="rank-name-SILVER" style="color: #ddd; font-weight: bold; background: #222;">SILVER</td>
+            <td id="rank-sub-SILVER-IV">IV</td>
+            <td id="rank-val-SILVER-IV-mas">27.000</td>
+            <td id="rank-val-SILVER-IV-apd">28.000</td>
+          </tr>
+          <tr>
+            <td id="rank-sub-SILVER-III">III</td>
+            <td id="rank-val-SILVER-III-mas">26.000</td>
+            <td id="rank-val-SILVER-III-apd">27.000</td>
+          </tr>
+          <tr>
+            <td id="rank-sub-SILVER-II">II</td>
+            <td id="rank-val-SILVER-II-mas">25.000</td>
+            <td id="rank-val-SILVER-II-apd">26.000</td>
+          </tr>
+          <tr class="grade-i">
+            <td id="rank-sub-SILVER-I">I</td>
+            <td id="rank-val-SILVER-I-mas">24.000</td>
+            <td id="rank-val-SILVER-I-apd">25.000</td>
+          </tr>
+          <tr>
+            <td rowspan="4" id="rank-name-BRONZE" style="color: #c73; font-weight: bold; background: #222;">BRONZE</td>
+            <td id="rank-sub-BRONZE-IV">IV</td>
+            <td id="rank-val-BRONZE-IV-mas">23.000</td>
+            <td id="rank-val-BRONZE-IV-apd">24.000</td>
+          </tr>
+          <tr>
+            <td id="rank-sub-BRONZE-III">III</td>
+            <td id="rank-val-BRONZE-III-mas">22.000</td>
+            <td id="rank-val-BRONZE-III-apd">23.000</td>
+          </tr>
+          <tr>
+            <td id="rank-sub-BRONZE-II">II</td>
+            <td id="rank-val-BRONZE-II-mas">21.000</td>
+            <td id="rank-val-BRONZE-II-apd">22.000</td>
+          </tr>
+          <tr class="grade-i">
+            <td id="rank-sub-BRONZE-I">I</td>
+            <td id="rank-val-BRONZE-I-mas">20.000</td>
+            <td id="rank-val-BRONZE-I-apd">21.000</td>
+          </tr>
+          <tr>
+            <td rowspan="4" id="rank-name-BEGINNER" style="color: #aaa; font-weight: bold; background: #222;">BEGINNER</td>
+            <td id="rank-sub-BEGINNER-IV">IV</td>
+            <td id="rank-val-BEGINNER-IV-mas">15.000</td>
+            <td id="rank-val-BEGINNER-IV-apd">15.750</td>
+          </tr>
+          <tr>
+            <td id="rank-sub-BEGINNER-III">III</td>
+            <td id="rank-val-BEGINNER-III-mas">10.000</td>
+            <td id="rank-val-BEGINNER-III-apd">10.500</td>
+          </tr>
+          <tr>
+            <td id="rank-sub-BEGINNER-II">II</td>
+            <td id="rank-val-BEGINNER-II-mas">5.000</td>
+            <td id="rank-val-BEGINNER-II-apd">5.250</td>
+          </tr>
+          <tr class="grade-i">
+            <td id="rank-sub-BEGINNER-I">I</td>
+            <td id="rank-val-BEGINNER-I-mas">0.000</td>
+            <td id="rank-val-BEGINNER-I-apd">0.000</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
 <script>
   const profileImages = [
     "https://pjsekai.sega.jp/colorfullive/5th-frontier/assets/images/common/special/icon_ichika_mini.png", 
@@ -646,6 +1026,7 @@
 
   let selectedProfileIndex = null;
   let currentMode = 'mas';
+  let currentCalculatedScore = 0.000;
   let achievementOptions = {
     mas: 'all_9',
     apd: 'all_9'
@@ -657,66 +1038,85 @@
 
   const ranksMAS = [
     { name: "BEGINNER I", min: 0.000, color: "#aaa" },
-    { name: "BEGINNER II", min: 2.500, color: "#aaa" },
-    { name: "BEGINNER III", min: 5.000, color: "#aaa" },
-    { name: "BEGINNER IV", min: 7.500, color: "#aaa" },
-    { name: "BRONZE I", min: 10.000, color: "#c73" },
-    { name: "BRONZE II", min: 10.500, color: "#c73" },
-    { name: "BRONZE III", min: 11.000, color: "#c73" },
-    { name: "BRONZE IV", min: 11.500, color: "#c73" },
-    { name: "SILVER I", min: 12.000, color: "#ddd" },
-    { name: "SILVER II", min: 12.500, color: "#ddd" },
-    { name: "SILVER III", min: 13.000, color: "#ddd" },
-    { name: "SILVER IV", min: 13.500, color: "#ddd" },
-    { name: "GOLD I", min: 14.000, color: "#fc5" },
-    { name: "GOLD II", min: 14.500, color: "#fc5" },
-    { name: "GOLD III", min: 15.000, color: "#fc5" },
-    { name: "GOLD IV", min: 15.500, color: "#fc5" },
-    { name: "PLATINA I", min: 16.000, color: "#bee" },
-    { name: "PLATINA II", min: 16.250, color: "#bee" },
-    { name: "PLATINA III", min: 16.500, color: "#bee" },
-    { name: "PLATINA IV", min: 16.750, color: "#bee" },
-    { name: "DIAMOND I", min: 17.000, color: "#8cf" },
-    { name: "DIAMOND II", min: 17.250, color: "#8cf" },
-    { name: "DIAMOND III", min: 17.500, color: "#8cf" },
-    { name: "DIAMOND IV", min: 17.750, color: "#8cf" },
-    { name: "RUBY I", min: 18.000, color: "#f6a" },
-    { name: "RUBY II", min: 18.250, color: "#f6a" },
-    { name: "RUBY III", min: 18.500, color: "#f6a" },
-    { name: "RUBY IV", min: 18.750, color: "#f6a" },
-    { name: "MASTER", min: 19.000, color: "#b5f" }
+    { name: "BEGINNER II", min: 5.000, color: "#aaa" },
+    { name: "BEGINNER III", min: 10.000, color: "#aaa" },
+    { name: "BEGINNER IV", min: 15.000, color: "#aaa" },
+    { name: "BRONZE I", min: 20.000, color: "#c73" },
+    { name: "BRONZE II", min: 21.000, color: "#c73" },
+    { name: "BRONZE III", min: 22.000, color: "#c73" },
+    { name: "BRONZE IV", min: 23.000, color: "#c73" },
+    { name: "SILVER I", min: 24.000, color: "#ddd" },
+    { name: "SILVER II", min: 25.000, color: "#ddd" },
+    { name: "SILVER III", min: 26.000, color: "#ddd" },
+    { name: "SILVER IV", min: 27.000, color: "#ddd" },
+    { name: "GOLD I", min: 28.000, color: "#fc5" },
+    { name: "GOLD II", min: 28.500, color: "#fc5" },
+    { name: "GOLD III", min: 29.000, color: "#fc5" },
+    { name: "GOLD IV", min: 29.500, color: "#fc5" },
+    { name: "PLATINA I", min: 30.000, color: "#bee" },
+    { name: "PLATINA II", min: 30.500, color: "#bee" },
+    { name: "PLATINA III", min: 31.000, color: "#bee" },
+    { name: "PLATINA IV", min: 31.500, color: "#bee" },
+    { name: "DIAMOND I", min: 32.000, color: "#6dd" },
+    { name: "DIAMOND II", min: 32.250, color: "#6dd" },
+    { name: "DIAMOND III", min: 32.500, color: "#6dd" },
+    { name: "DIAMOND IV", min: 32.750, color: "#6dd" },
+    { name: "RUBY I", min: 33.000, color: "#e26" },
+    { name: "RUBY II", min: 33.250, color: "#e26" },
+    { name: "RUBY III", min: 33.500, color: "#e26" },
+    { name: "RUBY IV", min: 33.750, color: "#e26" },
+    { name: "SAPPHIRE I", min: 34.000, color: "#67f" },
+    { name: "SAPPHIRE II", min: 34.250, color: "#67f" },
+    { name: "SAPPHIRE III", min: 34.500, color: "#67f" },
+    { name: "SAPPHIRE IV", min: 34.750, color: "#67f" },
+    { name: "EMERALD I", min: 35.000, color: "#2c8" },
+    { name: "EMERALD II", min: 35.250, color: "#2c8" },
+    { name: "EMERALD III", min: 35.500, color: "#2c8" },
+    { name: "EMERALD IV", min: 35.750, color: "#2c8" },
+    { name: "AMETHYST I", min: 36.000, color: "#85e" }
   ];
 
   const ranksAPD = [
     { name: "BEGINNER I", min: 0.000, color: "#aaa" },
-    { name: "BEGINNER II", min: 2.750, color: "#aaa" },
-    { name: "BEGINNER III", min: 5.500, color: "#aaa" },
-    { name: "BEGINNER IV", min: 8.250, color: "#aaa" },
-    { name: "BRONZE I", min: 11.000, color: "#c73" },
-    { name: "BRONZE II", min: 11.500, color: "#c73" },
-    { name: "BRONZE III", min: 12.000, color: "#c73" },
-    { name: "BRONZE IV", min: 12.500, color: "#c73" },
-    { name: "SILVER I", min: 13.000, color: "#ddd" },
-    { name: "SILVER II", min: 13.500, color: "#ddd" },
-    { name: "SILVER III", min: 14.000, color: "#ddd" },
-    { name: "SILVER IV", min: 14.500, color: "#ddd" },
-    { name: "GOLD I", min: 15.000, color: "#fc5" },
-    { name: "GOLD II", min: 15.500, color: "#fc5" },
-    { name: "GOLD III", min: 16.000, color: "#fc5" },
-    { name: "GOLD IV", min: 16.500, color: "#fc5" },
-    { name: "PLATINA I", min: 17.000, color: "#bee" },
-    { name: "PLATINA II", min: 17.250, color: "#bee" },
-    { name: "PLATINA III", min: 17.500, color: "#bee" },
-    { name: "PLATINA IV", min: 17.750, color: "#bee" },
-    { name: "DIAMOND I", min: 18.000, color: "#8cf" },
-    { name: "DIAMOND II", min: 18.250, color: "#8cf" },
-    { name: "DIAMOND III", min: 18.500, color: "#8cf" },
-    { name: "DIAMOND IV", min: 18.750, color: "#8cf" },
-    { name: "RUBY I", min: 19.000, color: "#f6a" },
-    { name: "RUBY II", min: 19.250, color: "#f6a" },
-    { name: "RUBY III", min: 19.500, color: "#f6a" },
-    { name: "RUBY IV", min: 19.750, color: "#f6a" },
-    { name: "MASTER", min: 20.000, color: "#b5f" }
+    { name: "BEGINNER II", min: 5.250, color: "#aaa" },
+    { name: "BEGINNER III", min: 10.500, color: "#aaa" },
+    { name: "BEGINNER IV", min: 15.750, color: "#aaa" },
+    { name: "BRONZE I", min: 21.000, color: "#c73" },
+    { name: "BRONZE II", min: 22.000, color: "#c73" },
+    { name: "BRONZE III", min: 23.000, color: "#c73" },
+    { name: "BRONZE IV", min: 24.000, color: "#c73" },
+    { name: "SILVER I", min: 25.000, color: "#ddd" },
+    { name: "SILVER II", min: 26.000, color: "#ddd" },
+    { name: "SILVER III", min: 27.000, color: "#ddd" },
+    { name: "SILVER IV", min: 28.000, color: "#ddd" },
+    { name: "GOLD I", min: 29.000, color: "#fc5" },
+    { name: "GOLD II", min: 29.500, color: "#fc5" },
+    { name: "GOLD III", min: 30.000, color: "#fc5" },
+    { name: "GOLD IV", min: 30.500, color: "#fc5" },
+    { name: "PLATINA I", min: 31.000, color: "#bee" },
+    { name: "PLATINA II", min: 31.500, color: "#bee" },
+    { name: "PLATINA III", min: 32.000, color: "#bee" },
+    { name: "PLATINA IV", min: 32.500, color: "#bee" },
+    { name: "DIAMOND I", min: 33.000, color: "#6dd" },
+    { name: "DIAMOND II", min: 33.250, color: "#6dd" },
+    { name: "DIAMOND III", min: 33.500, color: "#6dd" },
+    { name: "DIAMOND IV", min: 33.750, color: "#6dd" },
+    { name: "RUBY I", min: 34.000, color: "#e26" },
+    { name: "RUBY II", min: 34.250, color: "#e26" },
+    { name: "RUBY III", min: 34.500, color: "#e26" },
+    { name: "RUBY IV", min: 34.750, color: "#e26" },
+    { name: "SAPPHIRE I", min: 35.000, color: "#67f" },
+    { name: "SAPPHIRE II", min: 35.250, color: "#67f" },
+    { name: "SAPPHIRE III", min: 35.500, color: "#67f" },
+    { name: "SAPPHIRE IV", min: 35.750, color: "#67f" },
+    { name: "EMERALD I", min: 36.000, color: "#2c8" },
+    { name: "EMERALD II", min: 36.250, color: "#2c8" },
+    { name: "EMERALD III", min: 36.500, color: "#2c8" },
+    { name: "EMERALD IV", min: 36.750, color: "#2c8" },
+    { name: "AMETHYST I", min: 37.000, color: "#85e" },
+    { name: "AMETHYST II", min: 37.250, color: "#85e" },
+    { name: "AMETHYST III", min: 37.500, color: "#85e" },
+    { name: "AMETHYST IV", min: 37.750, color: "#85e" }
   ];
 
   const dataMAS = {};
@@ -738,6 +1138,37 @@
     renderInputs();
     renderProfileGrid();
     calculate();
+    setupKeyboardListeners();
+  }
+
+  function setupKeyboardListeners() {
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closeProfileModal();
+        closeAchievementModal();
+        closeJacketModal();
+        closeRatingInfoModal();
+      } else if (event.key === 'Enter') {
+        const jacketModal = document.getElementById('jacket-modal');
+        const profileModal = document.getElementById('profile-modal');
+        const achievementModal = document.getElementById('achievement-modal');
+        const ratingInfoModal = document.getElementById('rating-info-modal');
+
+        if (jacketModal && jacketModal.style.display !== 'none') {
+          event.preventDefault();
+          submitJacketId();
+        } else if (achievementModal && achievementModal.style.display !== 'none') {
+          event.preventDefault();
+          closeAchievementModal();
+        } else if (profileModal && profileModal.style.display !== 'none') {
+          event.preventDefault();
+          closeProfileModal();
+        } else if (ratingInfoModal && ratingInfoModal.style.display !== 'none') {
+          event.preventDefault();
+          closeRatingInfoModal();
+        }
+      }
+    });
   }
 
   function saveLocalStorage() {
@@ -807,6 +1238,42 @@
     document.getElementById('profile-modal').style.display = 'none';
   }
 
+  function openRatingInfoModal() {
+    highlightCurrentRankInInfoModal();
+    document.getElementById('rating-info-modal').style.display = 'flex';
+  }
+
+  function closeRatingInfoModal() {
+    document.getElementById('rating-info-modal').style.display = 'none';
+  }
+
+  function highlightCurrentRankInInfoModal() {
+    document.querySelectorAll('.rank-cell-glow').forEach(el => {
+      el.classList.remove('rank-cell-glow');
+    });
+
+    const rankList = currentMode === 'mas' ? ranksMAS : ranksAPD;
+    let currentRankObj = rankList[0];
+
+    for (let i = 0; i < rankList.length; i++) {
+      if (currentCalculatedScore >= rankList[i].min) {
+        currentRankObj = rankList[i];
+      }
+    }
+
+    const nameParts = currentRankObj.name.split(' ');
+    const mainRank = nameParts[0];
+    const subGrade = nameParts[1] || 'I';
+
+    const mainRankCell = document.getElementById(`rank-name-${mainRank}`);
+    const subGradeCell = document.getElementById(`rank-sub-${mainRank}-${subGrade}`);
+    const valueCell = document.getElementById(`rank-val-${mainRank}-${subGrade}-${currentMode}`);
+
+    if (mainRankCell) mainRankCell.classList.add('rank-cell-glow');
+    if (subGradeCell) subGradeCell.classList.add('rank-cell-glow');
+    if (valueCell) valueCell.classList.add('rank-cell-glow');
+  }
+
   function selectProfile(index) {
     selectedProfileIndex = index;
     applyProfile();
@@ -858,8 +1325,8 @@
 
     levels.forEach(level => {
       const data = currentMode === 'mas' ? dataMAS[level] : dataAPD[level];
-      const fcPts = format3((level / 2) + 1.226);
-      const apPts = format3((level / 2) + 2.150);
+      const fcPts = format3((level) + 0.726);
+      const apPts = format3((level) + 2.150);
       const glowClass = getGlowClass(data);
       
       let badgeBg = '';
@@ -937,7 +1404,7 @@
         allAchievements.push({
           lvl: lvl,
           type: 'AP',
-          score: trunc3((lvl / 2) + 2.150),
+          score: trunc3((lvl) + 2.150),
           key: `${currentMode}_${lvl}_AP_${dupIdx}`
         });
       }
@@ -947,7 +1414,7 @@
         allAchievements.push({
           lvl: lvl,
           type: 'FC',
-          score: trunc3((lvl / 2) + 1.226),
+          score: trunc3((lvl) + 0.726),
           key: `${currentMode}_${lvl}_FC_${dupIdx}`
         });
       }
@@ -965,6 +1432,7 @@
     }
 
     const finalScore = trunc3(totalSum / divisor);
+    currentCalculatedScore = finalScore;
 
     const infoBox = document.getElementById('info-box');
     
