@@ -263,7 +263,7 @@
 
   .result-box {
     position: relative;
-    padding: 25px 20px;
+    padding: 18px 20px 28px 20px;
     background: #1e1e1e;
     border-radius: 12px;
     text-align: center;
@@ -273,8 +273,8 @@
   
   .info-icon-btn {
     position: absolute;
-    top: 12px;
-    right: 12px;
+    top: 10px;
+    right: 10px;
     width: 22px;
     height: 22px;
     border-radius: 50%;
@@ -299,27 +299,51 @@
     background-color: rgba(0, 187, 204, 0.15);
   }
   .result-title {
-    font-size: 16px;
+    font-size: 15px;
     color: #aaa;
+    line-height: 1.2;
   }
   .result-score {
-    font-size: 44px;
+    font-size: 40px;
     font-weight: bold;
-    margin: 15px 0;
+    margin: 12px 0;
+    line-height: 1.1;
     transition: color 0.3s ease;
   }
   .result-score .decimal {
     font-size: 0.67em;
   }
   .result-rank {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
+    line-height: 1.2;
     transition: color 0.3s ease;
   }
   .next-rank {
-    font-size: 13px;
+    font-size: 12px;
     color: #888;
-    margin-top: 10px;
+    margin-top: 8px;
+    margin-bottom: 4px;
+    line-height: 1.2;
+  }
+  .judge-deck-container {
+    position: absolute;
+    bottom: 8px;
+    right: 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: #aaa;
+    cursor: pointer;
+    user-select: none;
+  }
+  .judge-deck-container input[type="checkbox"] {
+    cursor: pointer;
+    accent-color: #0bc;
+    margin: 0;
+    width: 13px;
+    height: 13px;
   }
 
   .major-achievements-box {
@@ -395,7 +419,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.85) 100%);
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,1) 100%);
     pointer-events: none;
     z-index: 1;
   }
@@ -641,6 +665,10 @@
         <div class="result-score" id="final-score">0<span class="decimal">.000</span></div>
         <div class="result-rank" id="final-rank">UNRANKED</div>
         <div class="next-rank" id="next-rank">다음 등급까지 남은 점수: 10.000</div>
+        <label class="judge-deck-container" title="판정 강화 덱 사용 시 최종 레이팅에서 0.068 감산">
+          <input type="checkbox" id="judge-deck-checkbox" onchange="toggleJudgeDeck(this.checked)">
+          <span>판정 강화 덱 사용</span>
+        </label>
       </div>
 
       <div class="major-achievements-box">
@@ -681,9 +709,9 @@
     <div style="margin-bottom: 15px;">
       <label for="achievement-option-select" style="font-size: 13px; color: #aaa; display: block; margin-bottom: 8px;">표시 방식을 선택하세요</label>
       <select id="achievement-option-select" onchange="changeAchievementOption(this.value)">
-        <option value="all_9">전체 성과 통합 9개</option>
-        <option value="ap6_fc3">AP 성과 6개 & FC 성과 3개</option>
-        <option value="ap3_fc6">AP 성과 3개 & FC 성과 6개</option>
+        <option value="all_9">전체 성과 통합 9곡</option>
+        <option value="ap6_fc3">AP 성과 6곡 & FC 성과 3곡</option>
+        <option value="ap3_fc6">AP 성과 3곡 & FC 성과 6곡</option>
       </select>
     </div>
     <div class="modal-footer" style="justify-content: flex-end;">
@@ -1031,6 +1059,10 @@
     mas: 'all_9',
     apd: 'all_9'
   };
+  let judgeDeckState = {
+    mas: false,
+    apd: false
+  };
 
   const jacketMap = {};
   const badgeColorState = {};
@@ -1130,6 +1162,14 @@
     return trunc3(val).toFixed(3);
   }
 
+  function getFormattedYYMMDD() {
+    const now = new Date();
+    const yy = String(now.getFullYear()).slice(-2);
+    const mm = String(now.getMonth() + 1).padStart(2, '0');
+    const dd = String(now.getDate()).padStart(2, '0');
+    return `${yy}${mm}${dd}`;
+  }
+
   function init() {
     for (let i = 21; i <= 37; i++) dataMAS[i] = { fc: 0, ap: 0 };
     for (let i = 24; i <= 38; i++) dataAPD[i] = { fc: 0, ap: 0 };
@@ -1137,6 +1177,7 @@
     loadLocalStorage();
     renderInputs();
     renderProfileGrid();
+    document.getElementById('judge-deck-checkbox').checked = !!judgeDeckState[currentMode];
     calculate();
     setupKeyboardListeners();
   }
@@ -1179,7 +1220,8 @@
       selectedProfileIndex: selectedProfileIndex,
       jacketMap: jacketMap,
       badgeColorState: badgeColorState,
-      achievementOptions: achievementOptions
+      achievementOptions: achievementOptions,
+      judgeDeckState: judgeDeckState
     };
     localStorage.setItem('sekai_rating_data', JSON.stringify(saveData));
   }
@@ -1204,7 +1246,10 @@
         achievementOptions.mas = parsed.achievementOption;
         achievementOptions.apd = parsed.achievementOption;
       }
+      if (parsed.judgeDeckState) Object.assign(judgeDeckState, parsed.judgeDeckState);
+
       document.getElementById('achievement-option-select').value = achievementOptions[currentMode];
+      document.getElementById('judge-deck-checkbox').checked = !!judgeDeckState[currentMode];
     } catch (e) {
       console.error('LocalStorage load failed', e);
     }
@@ -1302,9 +1347,16 @@
     event.target.classList.add('active');
 
     document.getElementById('achievement-option-select').value = achievementOptions[currentMode];
+    document.getElementById('judge-deck-checkbox').checked = !!judgeDeckState[currentMode];
 
     renderInputs();
     calculate();
+  }
+
+  function toggleJudgeDeck(checked) {
+    judgeDeckState[currentMode] = checked;
+    calculate();
+    saveLocalStorage();
   }
 
   function getGlowClass(data) {
@@ -1431,7 +1483,13 @@
       totalSum += allAchievements[i].score;
     }
 
-    const finalScore = trunc3(totalSum / divisor);
+    let rawFinal = trunc3(totalSum / divisor);
+    if (judgeDeckState[currentMode]) {
+      rawFinal = trunc3(rawFinal - 0.068);
+      if (rawFinal < 0) rawFinal = 0;
+    }
+
+    const finalScore = rawFinal;
     currentCalculatedScore = finalScore;
 
     const infoBox = document.getElementById('info-box');
@@ -1449,7 +1507,7 @@
       let msgTexts = [];
       for (let key in includedMap) {
         let inc = includedMap[key];
-        msgTexts.push(`${modePrefix}${inc.lvl} ${inc.type} ${inc.count}개`);
+        msgTexts.push(`${modePrefix}${inc.lvl} ${inc.type} ${inc.count}곡`);
       }
       
       infoBox.innerHTML = msgTexts.join(' + ') + ` = 총 ${countedNumber}곡 레이팅 계산 반영 완료`;
@@ -1661,7 +1719,8 @@
       selectedProfileIndex: selectedProfileIndex,
       jacketMap: jacketMap,
       badgeColorState: badgeColorState,
-      achievementOptions: achievementOptions
+      achievementOptions: achievementOptions,
+      judgeDeckState: judgeDeckState
     };
 
     const rawNickname = document.getElementById('nickname-input').value.trim();
@@ -1670,6 +1729,8 @@
       const sanitizedNickname = rawNickname.replace(/\s+/g, '_');
       fileName += `_${sanitizedNickname}`;
     }
+    const dateStr = getFormattedYYMMDD();
+    fileName += `_${dateStr}`;
 
     const blob = new Blob([JSON.stringify(saveData, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -1708,8 +1769,10 @@
             achievementOptions.mas = rawData.achievementOption;
             achievementOptions.apd = rawData.achievementOption;
           }
+          if (rawData.judgeDeckState) Object.assign(judgeDeckState, rawData.judgeDeckState);
 
           document.getElementById('achievement-option-select').value = achievementOptions[currentMode];
+          document.getElementById('judge-deck-checkbox').checked = !!judgeDeckState[currentMode];
 
           renderInputs();
           calculate();
@@ -1736,7 +1799,9 @@
 
     document.getElementById('nickname-input').value = '';
     achievementOptions = { mas: 'all_9', apd: 'all_9' };
+    judgeDeckState = { mas: false, apd: false };
     document.getElementById('achievement-option-select').value = 'all_9';
+    document.getElementById('judge-deck-checkbox').checked = false;
 
     localStorage.removeItem('sekai_rating_data');
     renderInputs();
